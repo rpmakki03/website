@@ -102,12 +102,14 @@ export default function Home() {
             className="relative overflow-hidden bg-gradient-to-b from-cream-100 via-cream-50 to-cream-100 pt-32 pb-20 sm:pt-40"
           >
             {/* floating petals */}
-            <Petal className="left-[6%] top-40 h-12 w-12 opacity-70" color="#2456b8" speed="2" />
-            <Petal className="right-[8%] top-56 h-10 w-10 opacity-60" color="#2cbfb4" speed="3" />
-            <Petal className="left-[14%] bottom-24 h-9 w-9 opacity-50" color="#1f9e52" speed="1.5" />
-            <Petal className="right-[16%] bottom-40 h-12 w-12 opacity-60" color="#e3b85c" speed="2.5" />
+            {/* the content column is max-w-5xl, so these only clear the text
+                from xl up — below that they drifted behind the stats */}
+            <Petal className="left-[4%] top-40 hidden h-12 w-12 opacity-60 xl:block" color="#2456b8" speed="2" />
+            <Petal className="right-[5%] top-56 hidden h-10 w-10 opacity-50 xl:block" color="#2cbfb4" speed="3" />
+            <Petal className="left-[3%] bottom-24 hidden h-9 w-9 opacity-45 xl:block" color="#1f9e52" speed="1.5" />
+            <Petal className="right-[4%] bottom-40 hidden h-12 w-12 opacity-50 xl:block" color="#e3b85c" speed="2.5" />
 
-            <div className="mx-auto max-w-5xl px-5 text-center sm:px-8">
+            <div className="relative z-10 mx-auto max-w-5xl px-5 text-center sm:px-8">
               <div data-scroll data-scroll-speed="1">
                 <Image
                   src="/assets/logo-50-hindi.png"
@@ -186,11 +188,11 @@ export default function Home() {
               <div className="relative" data-scroll data-scroll-speed="1">
                 <div className="gold-frame overflow-hidden rounded-[2rem]">
                   <Image
-                    src="/assets/krishna-sunrise.jpeg"
+                    src="/assets/krishna-artwork.jpeg"
                     alt={t("about.imageAlt")}
-                    width={880}
-                    height={1300}
-                    className="h-[420px] w-full object-cover object-top sm:h-[520px]"
+                    width={950}
+                    height={882}
+                    className="h-[420px] w-full object-cover object-center sm:h-[520px]"
                   />
                 </div>
                 <div
@@ -414,7 +416,7 @@ export default function Home() {
 
           {/* ————— FINAL CTA ————— */}
           <section data-scroll-section className="relative overflow-hidden bg-navy-900 py-24">
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-40">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20">
               <Image
                 src="/assets/mandala-navy.jpeg"
                 alt=""
@@ -423,6 +425,11 @@ export default function Home() {
                 className="mask-feather w-[560px] max-w-none"
               />
             </div>
+            {/* keeps the heading and copy off the mandala's busiest area */}
+            <div
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_center,rgba(16,31,92,0.92)_0%,rgba(16,31,92,0.55)_55%,transparent_85%)]"
+              aria-hidden="true"
+            />
             <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
               <p className="text-sm tracking-[0.3em] text-gold-300 uppercase">{t("finalCta.eyebrow")}</p>
               <h2 className="font-display mt-4 text-4xl font-semibold text-cream-50 sm:text-6xl">
