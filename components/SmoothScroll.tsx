@@ -24,13 +24,15 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       const LocomotiveScroll = (await import("locomotive-scroll")).default;
       if (cancelled || !ref.current) return;
 
+      // transform-based smooth scrolling fights the touch gesture on mobile,
+      // so phones/tablets keep native scrolling (parallax stays desktop-only)
       scroll = new LocomotiveScroll({
         el: ref.current,
         smooth: true,
         lerp: 0.075,
         multiplier: 1,
-        smartphone: { smooth: true },
-        tablet: { smooth: true, breakpoint: 1024 },
+        smartphone: { smooth: false },
+        tablet: { smooth: false, breakpoint: 1024 },
       }) as unknown as NonNullable<Window["__loco"]>;
 
       window.__loco = scroll;

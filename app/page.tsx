@@ -35,20 +35,20 @@ function Petal({ className, color, speed }: { className: string; color: string; 
 /* ————————————————— competition icons ————————————————— */
 
 const ICONS: Record<string, React.ReactNode> = {
-  comp_1: ( // recitation — sound waves
-    <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3zm6-3a6 6 0 0 1-12 0H4a8 8 0 0 0 7 7.94V22h2v-3.06A8 8 0 0 0 20 11h-2z" />
-  ),
-  comp_2: ( // quiz — question
-    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 16h-2v-2h2v2zm1.8-6.9c-.6.6-1.3 1.1-1.6 1.9-.1.3-.2.6-.2 1h-2c0-.7.1-1.3.4-1.9.4-.8 1.1-1.3 1.7-1.9.5-.5.8-1 .8-1.7A2 2 0 0 0 12 6.6 2.1 2.1 0 0 0 9.9 8.7h-2A4.1 4.1 0 0 1 12 4.6a4 4 0 0 1 4 3.9c0 1.1-.5 1.9-1.2 2.6z" />
-  ),
-  comp_3: ( // essay — quill
-    <path d="M20.7 3.3c-3.7.3-8.6 1.5-11.5 4.4-2 2-3 4.6-3.2 7.2L3 18l1.4 1.4 3.1-3.1c2.6-.2 5.2-1.2 7.2-3.2 2.9-2.9 4.1-7.8 4.4-11.5l1.6-1.6-1.4-1.4-1.6 1.7zM13.3 11.7c-1.3 1.3-3 2.1-4.8 2.4 1.7-3.5 4.8-6.2 8.4-7.7-.6 1.9-1.8 3.6-3.6 5.3z" />
-  ),
-  comp_4: ( // poster — palette
+  chitrakala: ( // drawing & painting — palette
     <path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 1.7 1.7 0 0 0 1.2-2.8 1.7 1.7 0 0 1 1.2-2.7H16a6 6 0 0 0 6-6c0-4.6-4.5-8.5-10-8.5zM6.5 12A1.5 1.5 0 1 1 8 10.5 1.5 1.5 0 0 1 6.5 12zm3-4A1.5 1.5 0 1 1 11 6.5 1.5 1.5 0 0 1 9.5 8zm5 0A1.5 1.5 0 1 1 16 6.5 1.5 1.5 0 0 1 14.5 8zm3 4A1.5 1.5 0 1 1 19 10.5 1.5 1.5 0 0 1 17.5 12z" />
   ),
-  comp_5: ( // elocution — mic
+  swar: ( // shloka recitation — mic
     <path d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4zm6.5-4a6.5 6.5 0 0 1-13 0H4a8 8 0 0 0 7 7.94V21H8v2h8v-2h-3v-2.06A8 8 0 0 0 20 11h-1.5z" />
+  ),
+  gyan: ( // quiz — question
+    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 16h-2v-2h2v2zm1.8-6.9c-.6.6-1.3 1.1-1.6 1.9-.1.3-.2.6-.2 1h-2c0-.7.1-1.3.4-1.9.4-.8 1.1-1.3 1.7-1.9.5-.5.8-1 .8-1.7A2 2 0 0 0 12 6.6 2.1 2.1 0 0 0 9.9 8.7h-2A4.1 4.1 0 0 1 12 4.6a4 4 0 0 1 4 3.9c0 1.1-.5 1.9-1.2 2.6z" />
+  ),
+  expression: ( // personal reflection — heart in speech bubble
+    <path d="M12 2C6.5 2 2 5.9 2 10.7c0 2.7 1.4 5.1 3.7 6.7L5 22l4.6-2.4c.8.2 1.6.3 2.4.3 5.5 0 10-3.9 10-8.7S17.5 2 12 2zm0 13.1-.6-.5c-2.2-1.9-3.7-3.1-3.7-4.7 0-1.2 1-2.1 2.2-2.1.7 0 1.5.3 2.1 1 .6-.7 1.4-1 2.1-1 1.2 0 2.2.9 2.2 2.1 0 1.6-1.5 2.8-3.7 4.7l-.6.5z" />
+  ),
+  vivechan: ( // creative edit — film reel
+    <path d="M18 4v1h-2V4H8v1H6V4H4v16h2v-1h2v1h8v-1h2v1h2V4h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm-4 4.5-4 2.3V9.2l4 2.3v2z" />
   ),
 };
 
@@ -79,7 +79,7 @@ export default function Home() {
               <div data-scroll data-scroll-speed="1">
                 <Image
                   src="/assets/logo-50-hindi.png"
-                  alt="Learn Geeta — 50 Swarnim Varg"
+                  alt="LearnGeeta — 50 Swarnim Varg"
                   width={520}
                   height={470}
                   priority
@@ -93,13 +93,13 @@ export default function Home() {
 
               <h1 className="font-display mt-4 text-4xl font-semibold leading-tight text-navy-900 sm:text-5xl md:text-6xl">
                 Celebrate the <span className="text-goldgrad font-bold">Swarnim Varg</span>
-                <br className="hidden sm:block" /> of Learn Geeta
+                <br className="hidden sm:block" /> of LearnGeeta
               </h1>
 
               <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-navy-900/70 sm:text-lg">
-                Fifty batches of wisdom, devotion and transformation. As our Golden Batch
-                begins, we invite you to a grand celebration of the Bhagavad Geeta — through
-                five divine competitions open to every age.
+                The 50th batch of LearnGeeta — the Golden Batch — begins soon. To mark this
+                milestone, we invite you to a grand worldwide celebration of the Bhagavad
+                Geeta through five divine competitions, open to every age.
               </p>
 
               <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -169,9 +169,9 @@ export default function Home() {
                   data-scroll
                   data-scroll-speed="2"
                 >
-                  <p className="font-display text-4xl font-bold text-gold-300">50</p>
+                  <p className="font-display text-4xl font-bold text-gold-300">50th</p>
                   <p className="text-xs font-medium tracking-[0.2em] text-cream-100/80 uppercase">
-                    Batches of Geeta
+                    Golden Batch
                   </p>
                 </div>
               </div>
@@ -185,7 +185,7 @@ export default function Home() {
                   <Ornament />
                 </div>
                 <p className="mt-6 leading-relaxed text-navy-900/70">
-                  Learn Geeta&apos;s 50th special batch is a journey of{" "}
+                  LearnGeeta&apos;s 50th special batch is a journey of{" "}
                   <em className="font-medium not-italic text-navy-800">gyan</em> (knowledge),{" "}
                   <em className="font-medium not-italic text-navy-800">atma-chintan</em> (self-reflection) and{" "}
                   <em className="font-medium not-italic text-navy-800">jeevan-parivartan</em> (life
@@ -194,7 +194,7 @@ export default function Home() {
                 </p>
                 <ul className="mt-8 space-y-4">
                   {[
-                    "Five competitions across recitation, art, writing, quiz and oratory",
+                    "Five global competitions — painting, recitation, quiz, reflection and creative editing",
                     "Categories for children, youth and adults — everyone participates",
                     "Certificates and recognition for all participants",
                     "Guided by the Geeta Pariwar tradition of seva and swadhyay",
@@ -248,7 +248,7 @@ export default function Home() {
                   <Ornament light />
                 </div>
                 <p className="mx-auto mt-5 max-w-2xl text-cream-100/70">
-                  Choose your path of expression — recite, paint, write, answer or speak.
+                  Choose your path of expression — paint, recite, answer, reflect or create.
                   Every competition is an offering to the wisdom of the Geeta.
                 </p>
               </div>
@@ -278,17 +278,23 @@ export default function Home() {
                     </div>
 
                     <h3 className="font-display mt-6 text-2xl font-semibold text-cream-50">{comp.name}</h3>
+                    <p className="mt-1 text-[13px] font-medium tracking-wide text-gold-300/90">{comp.subtitle}</p>
                     <p className="mt-3 text-sm leading-relaxed text-cream-100/70">{comp.description}</p>
 
-                    <span className="mt-5 w-fit rounded-full border border-teal-500/40 bg-teal-500/10 px-3.5 py-1.5 text-xs font-medium text-teal-500">
-                      {comp.eligibility}
-                    </span>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      <span className="w-fit rounded-full border border-teal-500/40 bg-teal-500/10 px-3.5 py-1.5 text-xs font-medium text-teal-500">
+                        {comp.participants}
+                      </span>
+                      <span className="w-fit rounded-full border border-gold-400/40 bg-gold-500/10 px-3.5 py-1.5 text-xs font-medium text-gold-300">
+                        {comp.window}
+                      </span>
+                    </div>
 
                     <ul className="mt-5 space-y-2.5 border-t border-cream-50/10 pt-5">
-                      {comp.rules.map((rule) => (
-                        <li key={rule} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-cream-100/60">
+                      {comp.highlights.map((line) => (
+                        <li key={line} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-cream-100/60">
                           <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-400" />
-                          {rule}
+                          {line}
                         </li>
                       ))}
                     </ul>
@@ -343,7 +349,7 @@ export default function Home() {
                       ["🏆", "Recognition & Prizes", "Winners honoured at the grand Swarnim Varg ceremony."],
                       ["📜", "Certificates for All", "Every participant receives a certificate of participation."],
                       ["🪷", "Divine Wisdom", "Deepen your bond with the Bhagavad Geeta's teachings."],
-                      ["🤝", "A Global Family", "Connect with the worldwide Learn Geeta community."],
+                      ["🤝", "A Global Family", "Connect with the worldwide LearnGeeta community."],
                     ].map(([icon, title, desc]) => (
                       <div key={title} className="rounded-2xl border border-gold-500/20 bg-cream-50 p-6 shadow-[0_10px_30px_-18px_rgba(16,31,92,0.25)]">
                         <span className="text-2xl">{icon}</span>
@@ -359,7 +365,7 @@ export default function Home() {
                   <div className="gold-frame relative overflow-hidden rounded-[2rem] bg-white p-8">
                     <Image
                       src="/assets/logo-50-golden-batch.png"
-                      alt="Learn Geeta 50 — Golden Batch"
+                      alt="LearnGeeta 50 — Golden Batch"
                       width={640}
                       height={560}
                       className="w-full"
@@ -395,8 +401,8 @@ export default function Home() {
                 Be part of the <span className="text-goldgrad font-bold">Golden Batch</span>
               </h2>
               <p className="mx-auto mt-5 max-w-xl text-cream-100/70">
-                A golden opportunity awaits you. Register today and celebrate fifty batches
-                of the Bhagavad Geeta with the whole Learn Geeta pariwar.
+                A golden opportunity awaits you. Register today and celebrate the 50th batch
+                of LearnGeeta with the whole pariwar.
               </p>
               <Link
                 href="/login"
@@ -415,7 +421,7 @@ export default function Home() {
                   <div className="flex items-center justify-center gap-3 md:justify-start">
                     <LotusMark className="h-10 w-10" />
                     <div className="leading-tight">
-                      <p className="font-display text-xl font-bold tracking-[0.08em] text-cream-50">LEARN GEETA</p>
+                      <p className="font-display text-xl font-bold tracking-[0.08em] text-cream-50">LEARNGEETA</p>
                       <p className="text-[11px] font-medium tracking-[0.22em] text-gold-400">स्वर्णिम वर्ग · GOLDEN BATCH 50</p>
                     </div>
                   </div>
@@ -447,7 +453,7 @@ export default function Home() {
 
               <div className="mt-12 border-t border-cream-50/10 pt-6 text-center text-xs text-cream-100/40">
                 <p>॥ गीता पढ़ें — गीता आत्मसात करें ॥</p>
-                <p className="mt-2">© {new Date().getFullYear()} Learn Geeta · Geeta Pariwar. All rights reserved.</p>
+                <p className="mt-2">© {new Date().getFullYear()} LearnGeeta · Geeta Pariwar. All rights reserved.</p>
               </div>
             </div>
           </footer>

@@ -4,8 +4,8 @@ import Link from "next/link";
 import Header, { LotusMark } from "@/components/Header";
 
 export const metadata: Metadata = {
-  title: "Login · Learn Geeta — Swarnim Varg",
-  description: "Sign in to the Learn Geeta 50th Golden Batch competitions portal.",
+  title: "Login · LearnGeeta — Swarnim Varg",
+  description: "Sign in to the LearnGeeta 50th Golden Batch competitions portal.",
 };
 
 export default function LoginPage() {
@@ -32,8 +32,8 @@ export default function LoginPage() {
               <br /> awaits you
             </h1>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-cream-100/65">
-              Sign in to register for the 50th anniversary competitions — Shloka Pathan,
-              Maha Quiz, Essay Writing, Chitra Kala and Elocution.
+              Sign in to register for the 50th batch competitions — Geeta Chitrakala,
+              Geeta Swar, Gyan Challenge, Geeta Expression and Vivechan Reel.
             </p>
             <blockquote className="mt-12 border-t border-gold-500/30 pt-8">
               <p className="font-display text-xl text-gold-200">
@@ -52,7 +52,7 @@ export default function LoginPage() {
             <div className="rounded-[2rem] border border-gold-500/25 bg-white p-8 shadow-[0_30px_70px_-30px_rgba(16,31,92,0.35)] sm:p-10">
               <Image
                 src="/assets/logo-50-golden-batch.png"
-                alt="Learn Geeta 50 — Golden Batch"
+                alt="LearnGeeta 50 — Golden Batch"
                 width={300}
                 height={262}
                 priority

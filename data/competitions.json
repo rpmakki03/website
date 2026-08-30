@@ -1,58 +1,68 @@
 {
   "competitions": [
     {
-      "id": "comp_1",
-      "name": "Shloka Pathan (Recitation)",
-      "description": "Recite selected chapters and shlokas from the Bhagavad Geeta with clear pronunciation, correct meter, and devotion.",
-      "eligibility": "Open to all age groups (Categories: Children, Youth, Adults)",
-      "rules": [
-        "Participants must memorize the assigned chapters.",
-        "Evaluation will be based on clarity, pronunciation (Uchcharan), and rhythm (Laya).",
-        "Time limit per participant is 5 minutes."
+      "id": "chitrakala",
+      "name": "Geeta Chitrakala",
+      "subtitle": "Global Drawing & Painting Competition",
+      "description": "Express the wisdom of the Geeta through handmade drawing and painting. Create one final physical artwork and let your colours speak the shlokas.",
+      "participants": "Worldwide · 5 age groups",
+      "window": "4 – 24 Sep",
+      "highlights": [
+        "Handmade physical artwork — one final entry per participant",
+        "Evaluation: 100% jury",
+        "Top 3 per age group · Top 10 merit · participation certificate for valid entries"
       ]
     },
     {
-      "id": "comp_2",
-      "name": "Geeta Maha Quiz",
-      "description": "A comprehensive quiz testing your knowledge on the philosophy, characters, and core teachings of the Bhagavad Geeta.",
-      "eligibility": "Age 12 and above",
-      "rules": [
-        "First round will be a written multiple-choice test.",
-        "Top 10 scorers will move to the live rapid-fire stage.",
-        "Use of any reference material during the quiz is strictly prohibited."
+      "id": "swar",
+      "name": "Geeta Swar",
+      "subtitle": "Shloka · Meaning · Life Application Challenge",
+      "description": "Recite a shloka, share its meaning and its application in your life — as a 60–180 second public Instagram Reel.",
+      "participants": "Worldwide · 5 age groups",
+      "window": "4 – 22 Sep · reach cut-off 29 Sep",
+      "highlights": [
+        "Multiple reels allowed — your highest-reach eligible reel is final",
+        "Evaluation: 65% jury + 35% reach (views & engagement)",
+        "Top 3 per age group · Top 10 merit · participation certificate for valid entries"
       ]
     },
     {
-      "id": "comp_3",
-      "name": "Essay Writing Competition",
-      "description": "Express your thoughts on how the timeless teachings of the Geeta apply to modern-day challenges and youth.",
-      "eligibility": "Age 15 and above",
-      "rules": [
-        "Topics will be provided 24 hours in advance.",
-        "Word limit: 1000 - 1500 words.",
-        "Submissions must be original. Plagiarized content will be immediately disqualified."
+      "id": "gyan",
+      "name": "Geeta Gyan Challenge",
+      "subtitle": "50 Questions · 18 Chapters · One Golden Challenge",
+      "description": "A grand online quiz spanning all 18 chapters of the Bhagavad Geeta — 50 questions, 35 minutes, one scored attempt.",
+      "participants": "Worldwide · 5 age groups",
+      "window": "Practice 4 – 11 Sep · Official 12 – 20 Sep",
+      "highlights": [
+        "50 MCQs · 35 minutes · one scored attempt",
+        "Ranked by score, with difficulty-based tie-breaks; time only as final tie-break",
+        "Top 3 excellence · Top 10 merit · participation certificate at 50%+ score"
       ]
     },
     {
-      "id": "comp_4",
-      "name": "Geeta Chitra Kala (Poster Making)",
-      "description": "Visually depict a prominent scene, concept, or moral from the Bhagavad Geeta through art and colors.",
-      "eligibility": "Children (Age 5 to 15)",
-      "rules": [
-        "Standard A3 drawing sheets will be provided at the venue.",
-        "Participants must bring their own art supplies (crayons, watercolors, pencils).",
-        "Time limit: 2 hours."
+      "id": "expression",
+      "name": "Geeta Expression",
+      "subtitle": "60-sec Personal Reflection Challenge",
+      "description": "Share a heartfelt 60-second personal reflection on how the Geeta touches your life, as a public Instagram Reel.",
+      "participants": "Worldwide · 5 age groups",
+      "window": "4 – 23 Sep · reach cut-off 30 Sep",
+      "highlights": [
+        "Ideal 60 sec, max 90 sec — multiple reels allowed",
+        "Evaluation: 65% jury + 35% reach (views & engagement)",
+        "Top 3 per age group · Top 10 merit · one participation certificate per valid participant"
       ]
     },
     {
-      "id": "comp_5",
-      "name": "Elocution (Vaktutva Spardha)",
-      "description": "Deliver an impactful speech on the topic 'Karma Yoga: The Secret of Work' based on Geeta's teachings.",
-      "eligibility": "Age 18 and above",
-      "rules": [
-        "Speech can be delivered in English, Hindi, or Sanskrit.",
-        "Time limit per speaker is 3 to 5 minutes.",
-        "Points will be awarded for content clarity, confidence, and articulation."
+      "id": "vivechan",
+      "name": "Vivechan Reel",
+      "subtitle": "Creative Edit Challenge",
+      "description": "Craft a 30–60 second creative edit from the approved Vivechan Timestamp Bank and publish it as a public Instagram Reel.",
+      "participants": "Open to all · no age-category judging",
+      "window": "Create 4 – 16 Sep · Publish 17 – 18 Sep · cut-off 25 Sep",
+      "highlights": [
+        "30–60 sec reel from the approved Timestamp Bank · master MP4 required",
+        "Evaluation: 65% jury + 35% reach (views & engagement)",
+        "Overall Top 3 · up to Top 50 merit · participation certificate for valid entries"
       ]
     }
   ]

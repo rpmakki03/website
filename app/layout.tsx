@@ -15,9 +15,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Learn Geeta · Swarnim Varg — The 50th Golden Batch",
+  title: "LearnGeeta · Swarnim Varg — The 50th Golden Batch",
   description:
-    "Celebrate the 50th Golden Batch of Learn Geeta. Join the Swarnim Varg competitions — Shloka Pathan, Geeta Maha Quiz, Essay Writing, Chitra Kala and Elocution.",
+    "Celebrate the 50th Golden Batch of LearnGeeta. Join the Swarnim Varg competitions — Geeta Chitrakala, Geeta Swar, Geeta Gyan Challenge, Geeta Expression and Vivechan Reel.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

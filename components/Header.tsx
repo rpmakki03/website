@@ -69,7 +69,7 @@ export default function Header() {
           <LotusMark />
           <span className="leading-tight">
             <span className="block font-display text-xl font-bold tracking-[0.08em] text-navy-800">
-              LEARN GEETA
+              LEARNGEETA
             </span>
             <span className="block text-[11px] font-medium tracking-[0.22em] text-gold-600">
               स्वर्णिम वर्ग · GOLDEN BATCH 50
