@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -69,7 +70,14 @@ export default function Header() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
         {/* brand */}
         <Link href="/" className="group flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
-          <LotusMark />
+          <Image
+            src="/assets/logo-mark.png"
+            alt=""
+            width={400}
+            height={309}
+            priority
+            className="h-10 w-auto shrink-0"
+          />
           <span className="min-w-0 leading-tight">
             <span className="block font-display text-xl font-bold tracking-[0.08em] text-navy-800">
               {t("brand.name")}

@@ -291,7 +291,7 @@ export default function Home() {
                 {competitions.map((comp, i) => (
                   <article
                     key={comp.id}
-                    className="group relative flex flex-col rounded-3xl border border-gold-500/25 bg-white/[0.06] p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-gold-400/60 hover:bg-white/[0.09] hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,0.55)]"
+                    className="group relative flex flex-col rounded-3xl border border-gold-500/25 bg-navy-700/85 p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-gold-400/60 hover:bg-navy-700/95 hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,0.55)]"
                   >
                     <span
                       className="absolute inset-x-8 top-0 h-[3px] rounded-b"
@@ -448,7 +448,13 @@ export default function Home() {
               <div className="flex flex-col items-center justify-between gap-10 md:flex-row md:items-start">
                 <div className="max-w-sm text-center md:text-left">
                   <div className="flex items-center justify-center gap-3 md:justify-start">
-                    <LotusMark className="h-10 w-10" />
+                    <Image
+                      src="/assets/logo-mark.png"
+                      alt=""
+                      width={400}
+                      height={309}
+                      className="h-11 w-auto shrink-0"
+                    />
                     <div className="leading-tight">
                       <p className="font-display text-xl font-bold tracking-[0.08em] text-cream-50">{t("footer.brandName")}</p>
                       <p className="text-[11px] font-medium tracking-[0.22em] text-gold-400">{t("footer.brandTagline")}</p>
