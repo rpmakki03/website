@@ -1,0 +1,209 @@
+{
+  "meta": {
+    "title": "LearnGeeta · Swarnim Varg — The 50th Golden Batch",
+    "description": "Celebrate the 50th Golden Batch of LearnGeeta. Join the Swarnim Varg competitions — Geeta Chitrakala, Geeta Swar, Geeta Gyan Challenge, Geeta Expression and Vivechan Reel."
+  },
+  "language": {
+    "name": "English",
+    "label": "Language",
+    "selectorAria": "Select language",
+    "currentAria": "Current language"
+  },
+  "brand": {
+    "name": "LEARNGEETA",
+    "tagline": "Swarnim Varg · Golden Batch 50"
+  },
+  "nav": {
+    "about": "About",
+    "competitions": "Competitions",
+    "why": "Why Join",
+    "contact": "Contact",
+    "login": "Login",
+    "joinNow": "Join Now",
+    "toggleMenu": "Toggle menu"
+  },
+  "hero": {
+    "logoAlt": "LearnGeeta — 50 Swarnim Varg",
+    "eyebrow": "The 50th Batch · A Golden Milestone",
+    "titleLead": "Celebrate the",
+    "titleHighlight": "Swarnim Varg",
+    "titleTail": "of LearnGeeta",
+    "description": "The 50th batch of LearnGeeta — the Golden Batch — begins soon. To mark this milestone, we invite you to a grand worldwide celebration of the Bhagavad Geeta through five divine competitions, open to every age.",
+    "ctaPrimary": "Join Now — It's Free",
+    "ctaSecondary": "Explore Competitions",
+    "stats": [
+      {
+        "value": "50th",
+        "label": "Golden Batch"
+      },
+      {
+        "value": "5",
+        "label": "Competitions"
+      },
+      {
+        "value": "All Ages",
+        "label": "Welcome"
+      }
+    ]
+  },
+  "marquee": {
+    "sanskrit": "॥ स्वर्णिम वर्ग ॥",
+    "latin": "GOLDEN BATCH 50"
+  },
+  "about": {
+    "imageAlt": "Shri Krishna in meditation at sunrise",
+    "badgeValue": "50th",
+    "badgeLabel": "Golden Batch",
+    "eyebrow": "About the Celebration",
+    "titleLine1": "A Golden Opportunity",
+    "titleLine2": "Awaits You",
+    "bodyLead": "LearnGeeta's 50th special batch is a journey of",
+    "term1": "gyan",
+    "gloss1": "(knowledge),",
+    "term2": "atma-chintan",
+    "gloss2": "(self-reflection) and",
+    "term3": "jeevan-parivartan",
+    "gloss3": "(life transformation).",
+    "bodyTail": "To honour this milestone, the Swarnim Varg brings a festival of competitions celebrating the timeless wisdom of the Bhagavad Geeta.",
+    "points": [
+      "Five global competitions — painting, recitation, quiz, reflection and creative editing",
+      "Categories for children, youth and adults — everyone participates",
+      "Certificates and recognition for all participants",
+      "Guided by the Geeta Pariwar tradition of seva and swadhyay"
+    ],
+    "cta": "Join the Golden Batch"
+  },
+  "competitions": {
+    "eyebrow": "Swarnim Varg 2026",
+    "titleLead": "Five Divine",
+    "titleHighlight": "Competitions",
+    "titleTail": "",
+    "description": "Choose your path of expression — paint, recite, answer, reflect or create. Every competition is an offering to the wisdom of the Geeta.",
+    "registerCta": "Register for this competition →",
+    "items": [
+      {
+        "id": "chitrakala",
+        "name": "Geeta Chitrakala",
+        "subtitle": "Global Drawing & Painting Competition",
+        "description": "Express the wisdom of the Geeta through handmade drawing and painting. Create one final physical artwork and let your colours speak the shlokas.",
+        "participants": "Worldwide · 5 age groups",
+        "window": "4 – 24 Sep",
+        "highlights": [
+          "Handmade physical artwork — one final entry per participant",
+          "Evaluation: 100% jury",
+          "Top 3 per age group · Top 10 merit · participation certificate for valid entries"
+        ]
+      },
+      {
+        "id": "swar",
+        "name": "Geeta Swar",
+        "subtitle": "Shloka · Meaning · Life Application Challenge",
+        "description": "Recite a shloka, share its meaning and its application in your life — as a 60–180 second public Instagram Reel.",
+        "participants": "Worldwide · 5 age groups",
+        "window": "4 – 22 Sep · reach cut-off 29 Sep",
+        "highlights": [
+          "Multiple reels allowed — your highest-reach eligible reel is final",
+          "Evaluation: 65% jury + 35% reach (views & engagement)",
+          "Top 3 per age group · Top 10 merit · participation certificate for valid entries"
+        ]
+      },
+      {
+        "id": "gyan",
+        "name": "Geeta Gyan Challenge",
+        "subtitle": "50 Questions · 18 Chapters · One Golden Challenge",
+        "description": "A grand online quiz spanning all 18 chapters of the Bhagavad Geeta — 50 questions, 35 minutes, one scored attempt.",
+        "participants": "Worldwide · 5 age groups",
+        "window": "Practice 4 – 11 Sep · Official 12 – 20 Sep",
+        "highlights": [
+          "50 MCQs · 35 minutes · one scored attempt",
+          "Ranked by score, with difficulty-based tie-breaks; time only as final tie-break",
+          "Top 3 excellence · Top 10 merit · participation certificate at 50%+ score"
+        ]
+      },
+      {
+        "id": "expression",
+        "name": "Geeta Expression",
+        "subtitle": "60-sec Personal Reflection Challenge",
+        "description": "Share a heartfelt 60-second personal reflection on how the Geeta touches your life, as a public Instagram Reel.",
+        "participants": "Worldwide · 5 age groups",
+        "window": "4 – 23 Sep · reach cut-off 30 Sep",
+        "highlights": [
+          "Ideal 60 sec, max 90 sec — multiple reels allowed",
+          "Evaluation: 65% jury + 35% reach (views & engagement)",
+          "Top 3 per age group · Top 10 merit · one participation certificate per valid participant"
+        ]
+      },
+      {
+        "id": "vivechan",
+        "name": "Vivechan Reel",
+        "subtitle": "Creative Edit Challenge",
+        "description": "Craft a 30–60 second creative edit from the approved Vivechan Timestamp Bank and publish it as a public Instagram Reel.",
+        "participants": "Open to all · no age-category judging",
+        "window": "Create 4 – 16 Sep · Publish 17 – 18 Sep · cut-off 25 Sep",
+        "highlights": [
+          "30–60 sec reel from the approved Timestamp Bank · master MP4 required",
+          "Evaluation: 65% jury + 35% reach (views & engagement)",
+          "Overall Top 3 · up to Top 50 merit · participation certificate for valid entries"
+        ]
+      }
+    ],
+    "ctaCard": {
+      "titleLine1": "Can't decide?",
+      "titleLine2": "Join them all.",
+      "description": "One account opens the door to every Swarnim Varg competition.",
+      "button": "Join Now"
+    }
+  },
+  "why": {
+    "eyebrow": "Why Participate",
+    "titleLead": "More than a contest —",
+    "titleHighlight": "a sadhana",
+    "titleTail": "",
+    "description": "Every shloka memorised, every essay written and every colour placed on canvas draws you closer to the eternal song of Shri Krishna. Walk this journey with thousands of fellow seekers of the Geeta Pariwar.",
+    "benefits": [
+      {
+        "title": "Recognition & Prizes",
+        "description": "Winners honoured at the grand Swarnim Varg ceremony."
+      },
+      {
+        "title": "Certificates for All",
+        "description": "Every participant receives a certificate of participation."
+      },
+      {
+        "title": "Divine Wisdom",
+        "description": "Deepen your bond with the Bhagavad Geeta's teachings."
+      },
+      {
+        "title": "A Global Family",
+        "description": "Connect with the worldwide LearnGeeta community."
+      }
+    ],
+    "logoAlt": "LearnGeeta 50 — Golden Batch",
+    "quote": "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन",
+    "quoteSource": "Bhagavad Geeta · 2.47"
+  },
+  "finalCta": {
+    "eyebrow": "॥ स्वर्णिम वर्ग ॥",
+    "titleLead": "Be part of the",
+    "titleHighlight": "Golden Batch",
+    "titleTail": "",
+    "description": "A golden opportunity awaits you. Register today and celebrate the 50th batch of LearnGeeta with the whole pariwar.",
+    "button": "Join Now"
+  },
+  "footer": {
+    "brandName": "LEARNGEETA",
+    "brandTagline": "Swarnim Varg · Golden Batch 50",
+    "about": "An initiative of Geeta Pariwar — spreading the eternal wisdom of the Bhagavad Geeta to every home, in every language.",
+    "exploreHeading": "Explore",
+    "connectHeading": "Connect",
+    "links": {
+      "about": "About",
+      "competitions": "Competitions",
+      "why": "Why Join",
+      "login": "Login"
+    },
+    "motto": "॥ गीता पढ़ें — गीता आत्मसात करें ॥",
+    "copyright": "© {year} LearnGeeta · Geeta Pariwar. All rights reserved.",
+    "pariwarLogoAlt": "Geeta Pariwar logo"
+  }
+}

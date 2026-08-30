@@ -1,8 +1,24 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import Header, { LotusMark } from "@/components/Header";
 import SmoothScroll from "@/components/SmoothScroll";
-import data from "@/data/competitions.json";
+import { useTranslation } from "@/lib/i18n";
+
+/* ————————————————— localized content shapes ————————————————— */
+
+type Stat = { value: string; label: string };
+type Benefit = { title: string; description: string };
+type Competition = {
+  id: string;
+  name: string;
+  subtitle: string;
+  description: string;
+  participants: string;
+  window: string;
+  highlights: string[];
+};
 
 /* ————————————————— decorative bits ————————————————— */
 
@@ -52,15 +68,31 @@ const ICONS: Record<string, React.ReactNode> = {
   ),
 };
 
+/**
+ * Space between two inline fragments, unless the next one opens with
+ * punctuation — several languages use a bare "," or "।" as the connector
+ * between the highlighted terms in the About paragraph.
+ */
+const glue = (next: string) => (/^[,.;:!?)\]}\u0964\u0965]/.test(next.trim()) ? "" : " ");
+
 const ACCENTS = ["#2456b8", "#2cbfb4", "#d6a02f", "#1f9e52", "#2e6ad6"];
+const WHY_ICONS = ["🏆", "📜", "🪷", "🤝"];
 
 /* ————————————————— page ————————————————— */
 
 export default function Home() {
-  const competitions = data.competitions;
+  const { t, raw } = useTranslation();
+
+  const competitions = raw<Competition[]>("competitions.items");
+  const stats = raw<Stat[]>("hero.stats");
+  const aboutPoints = raw<string[]>("about.points");
+  const benefits = raw<Benefit[]>("why.benefits");
 
   return (
     <>
+      <title>{t("meta.title")}</title>
+      <meta name="description" content={t("meta.description")} />
+
       <Header />
       <SmoothScroll>
         <main>
@@ -79,7 +111,7 @@ export default function Home() {
               <div data-scroll data-scroll-speed="1">
                 <Image
                   src="/assets/logo-50-hindi.png"
-                  alt="LearnGeeta — 50 Swarnim Varg"
+                  alt={t("hero.logoAlt")}
                   width={520}
                   height={470}
                   priority
@@ -88,46 +120,43 @@ export default function Home() {
               </div>
 
               <p className="mt-2 text-sm font-medium tracking-[0.35em] text-gold-600 uppercase">
-                The 50th Batch · A Golden Milestone
+                {t("hero.eyebrow")}
               </p>
 
               <h1 className="font-display mt-4 text-4xl font-semibold leading-tight text-navy-900 sm:text-5xl md:text-6xl">
-                Celebrate the <span className="text-goldgrad font-bold">Swarnim Varg</span>
-                <br className="hidden sm:block" /> of LearnGeeta
+                {t("hero.titleLead")}{" "}
+                <span className="text-goldgrad font-bold">{t("hero.titleHighlight")}</span>
+                <br className="hidden sm:block" /> {t("hero.titleTail")}
               </h1>
 
               <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-navy-900/70 sm:text-lg">
-                The 50th batch of LearnGeeta — the Golden Batch — begins soon. To mark this
-                milestone, we invite you to a grand worldwide celebration of the Bhagavad
-                Geeta through five divine competitions, open to every age.
+                {t("hero.description")}
               </p>
 
               <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link
                   href="/login"
-                  className="bg-goldgrad rounded-full px-10 py-4 text-base font-semibold text-navy-900 shadow-[0_18px_45px_-14px_rgba(185,130,28,0.9)] transition-transform hover:scale-[1.05]"
+                  className="bg-goldgrad rounded-full px-10 py-4 text-center text-base font-semibold text-navy-900 shadow-[0_18px_45px_-14px_rgba(185,130,28,0.9)] transition-transform hover:scale-[1.05]"
                 >
-                  Join Now — It&apos;s Free
+                  {t("hero.ctaPrimary")}
                 </Link>
                 <a
                   href="#competitions"
-                  className="rounded-full border-2 border-navy-800/25 px-10 py-[14px] text-base font-semibold text-navy-800 transition-colors hover:border-gold-500 hover:text-gold-600"
+                  className="rounded-full border-2 border-navy-800/25 px-10 py-[14px] text-center text-base font-semibold text-navy-800 transition-colors hover:border-gold-500 hover:text-gold-600"
                 >
-                  Explore Competitions
+                  {t("hero.ctaSecondary")}
                 </a>
               </div>
 
               {/* stats */}
               <div className="mx-auto mt-14 grid max-w-3xl grid-cols-3 divide-x divide-gold-500/25">
-                {[
-                  ["50th", "Golden Batch"],
-                  ["5", "Competitions"],
-                  ["All Ages", "Welcome"],
-                ].map(([big, small]) => (
-                  <div key={small} className="px-2 py-2">
-                    <p className="font-display text-3xl font-bold text-navy-800 sm:text-4xl">{big}</p>
-                    <p className="mt-1 text-[11px] font-medium tracking-[0.18em] text-gold-600 uppercase sm:text-xs">
-                      {small}
+                {stats.map((stat) => (
+                  <div key={stat.label} className="px-2 py-2">
+                    <p className="font-display text-3xl font-bold leading-tight text-balance break-words text-navy-800 sm:text-4xl">
+                      {stat.value}
+                    </p>
+                    <p className="mt-1 text-[11px] font-medium tracking-[0.18em] text-balance text-gold-600 uppercase sm:text-xs">
+                      {stat.label}
                     </p>
                   </div>
                 ))}
@@ -142,7 +171,7 @@ export default function Home() {
                 <div key={half} className="flex items-center">
                   {Array.from({ length: 8 }).map((_, i) => (
                     <span key={i} className="mx-6 flex items-center gap-6 text-sm font-semibold tracking-[0.2em] text-navy-900">
-                      ॥ स्वर्णिम वर्ग ॥ <span className="text-navy-900/60">✦</span> GOLDEN BATCH 50
+                      {t("marquee.sanskrit")} <span className="text-navy-900/60">✦</span> {t("marquee.latin")}
                       <span className="text-navy-900/60">✦</span>
                     </span>
                   ))}
@@ -158,47 +187,51 @@ export default function Home() {
                 <div className="gold-frame overflow-hidden rounded-[2rem]">
                   <Image
                     src="/assets/krishna-sunrise.jpeg"
-                    alt="Shri Krishna in meditation at sunrise"
+                    alt={t("about.imageAlt")}
                     width={880}
                     height={1300}
                     className="h-[420px] w-full object-cover object-top sm:h-[520px]"
                   />
                 </div>
                 <div
-                  className="absolute -bottom-8 -right-4 rounded-2xl bg-navy-900 px-6 py-5 shadow-2xl sm:-right-8"
+                  className="absolute -bottom-8 -right-4 max-w-[70%] rounded-2xl bg-navy-900 px-6 py-5 shadow-2xl sm:-right-8"
                   data-scroll
                   data-scroll-speed="2"
                 >
-                  <p className="font-display text-4xl font-bold text-gold-300">50th</p>
+                  <p className="font-display text-4xl font-bold text-gold-300">{t("about.badgeValue")}</p>
                   <p className="text-xs font-medium tracking-[0.2em] text-cream-100/80 uppercase">
-                    Golden Batch
+                    {t("about.badgeLabel")}
                   </p>
                 </div>
               </div>
 
               <div>
-                <p className="text-xs font-semibold tracking-[0.3em] text-gold-600 uppercase">About the Celebration</p>
+                <p className="text-xs font-semibold tracking-[0.3em] text-gold-600 uppercase">{t("about.eyebrow")}</p>
                 <h2 className="font-display mt-3 text-3xl font-semibold leading-snug text-navy-900 sm:text-5xl">
-                  A Golden Opportunity <br /> Awaits You
+                  {t("about.titleLine1")} <br /> {t("about.titleLine2")}
                 </h2>
                 <div className="mt-4 w-fit">
                   <Ornament />
                 </div>
                 <p className="mt-6 leading-relaxed text-navy-900/70">
-                  LearnGeeta&apos;s 50th special batch is a journey of{" "}
-                  <em className="font-medium not-italic text-navy-800">gyan</em> (knowledge),{" "}
-                  <em className="font-medium not-italic text-navy-800">atma-chintan</em> (self-reflection) and{" "}
-                  <em className="font-medium not-italic text-navy-800">jeevan-parivartan</em> (life
-                  transformation). To honour this milestone, the Swarnim Varg brings a festival of
-                  competitions celebrating the timeless wisdom of the Bhagavad Geeta.
+                  {t("about.bodyLead")}
+                  {glue(t("about.term1"))}
+                  <em className="font-medium not-italic text-navy-800">{t("about.term1")}</em>
+                  {glue(t("about.gloss1"))}
+                  {t("about.gloss1")}
+                  {glue(t("about.term2"))}
+                  <em className="font-medium not-italic text-navy-800">{t("about.term2")}</em>
+                  {glue(t("about.gloss2"))}
+                  {t("about.gloss2")}
+                  {glue(t("about.term3"))}
+                  <em className="font-medium not-italic text-navy-800">{t("about.term3")}</em>
+                  {glue(t("about.gloss3"))}
+                  {t("about.gloss3")}
+                  {glue(t("about.bodyTail"))}
+                  {t("about.bodyTail")}
                 </p>
                 <ul className="mt-8 space-y-4">
-                  {[
-                    "Five global competitions — painting, recitation, quiz, reflection and creative editing",
-                    "Categories for children, youth and adults — everyone participates",
-                    "Certificates and recognition for all participants",
-                    "Guided by the Geeta Pariwar tradition of seva and swadhyay",
-                  ].map((line) => (
+                  {aboutPoints.map((line) => (
                     <li key={line} className="flex items-start gap-3">
                       <span className="bg-goldgrad mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full">
                         <svg viewBox="0 0 12 12" className="h-3 w-3 fill-navy-900">
@@ -211,9 +244,9 @@ export default function Home() {
                 </ul>
                 <Link
                   href="/login"
-                  className="bg-goldgrad mt-10 inline-block rounded-full px-9 py-3.5 text-sm font-semibold text-navy-900 shadow-[0_14px_35px_-12px_rgba(185,130,28,0.9)] transition-transform hover:scale-[1.04]"
+                  className="bg-goldgrad mt-10 inline-block rounded-full px-9 py-3.5 text-center text-sm font-semibold text-navy-900 shadow-[0_14px_35px_-12px_rgba(185,130,28,0.9)] transition-transform hover:scale-[1.04]"
                 >
-                  Join the Golden Batch
+                  {t("about.cta")}
                 </Link>
               </div>
             </div>
@@ -240,16 +273,17 @@ export default function Home() {
 
             <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
               <div className="text-center">
-                <p className="text-xs font-semibold tracking-[0.3em] text-gold-300 uppercase">Swarnim Varg 2026</p>
+                <p className="text-xs font-semibold tracking-[0.3em] text-gold-300 uppercase">{t("competitions.eyebrow")}</p>
                 <h2 className="font-display mt-3 text-3xl font-semibold text-cream-50 sm:text-5xl">
-                  Five Divine <span className="text-goldgrad font-bold">Competitions</span>
+                  {t("competitions.titleLead")}{" "}
+                  <span className="text-goldgrad font-bold">{t("competitions.titleHighlight")}</span>
+                  {t("competitions.titleTail") ? ` ${t("competitions.titleTail")}` : ""}
                 </h2>
                 <div className="mt-5">
                   <Ornament light />
                 </div>
                 <p className="mx-auto mt-5 max-w-2xl text-cream-100/70">
-                  Choose your path of expression — paint, recite, answer, reflect or create.
-                  Every competition is an offering to the wisdom of the Geeta.
+                  {t("competitions.description")}
                 </p>
               </div>
 
@@ -265,7 +299,7 @@ export default function Home() {
                     />
                     <div className="flex items-center justify-between">
                       <span
-                        className="flex h-14 w-14 items-center justify-center rounded-2xl"
+                        className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl"
                         style={{ background: `${ACCENTS[i % ACCENTS.length]}26`, color: ACCENTS[i % ACCENTS.length] === "#d6a02f" ? "#f0d28a" : "#cfe0ff" }}
                       >
                         <svg viewBox="0 0 24 24" className="h-7 w-7" fill={ACCENTS[i % ACCENTS.length] === "#d6a02f" ? "#f0d28a" : ACCENTS[i % ACCENTS.length] === "#2456b8" ? "#8fb4f5" : ACCENTS[i % ACCENTS.length]}>
@@ -303,7 +337,7 @@ export default function Home() {
                       href="/login"
                       className="mt-auto pt-7 text-sm font-semibold text-gold-300 transition-colors group-hover:text-gold-200"
                     >
-                      Register for this competition →
+                      {t("competitions.registerCta")}
                     </Link>
                   </article>
                 ))}
@@ -312,16 +346,16 @@ export default function Home() {
                 <article className="bg-goldgrad relative flex flex-col items-center justify-center rounded-3xl p-10 text-center shadow-[0_30px_60px_-25px_rgba(185,130,28,0.7)]">
                   <LotusMark className="h-14 w-14 opacity-90" />
                   <h3 className="font-display mt-5 text-3xl font-bold text-navy-900">
-                    Can&apos;t decide? <br /> Join them all.
+                    {t("competitions.ctaCard.titleLine1")} <br /> {t("competitions.ctaCard.titleLine2")}
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-navy-900/75">
-                    One account opens the door to every Swarnim Varg competition.
+                    {t("competitions.ctaCard.description")}
                   </p>
                   <Link
                     href="/login"
-                    className="mt-7 rounded-full bg-navy-900 px-9 py-3.5 text-sm font-semibold text-gold-200 shadow-xl transition-transform hover:scale-[1.05]"
+                    className="mt-7 rounded-full bg-navy-900 px-9 py-3.5 text-center text-sm font-semibold text-gold-200 shadow-xl transition-transform hover:scale-[1.05]"
                   >
-                    Join Now
+                    {t("competitions.ctaCard.button")}
                   </Link>
                 </article>
               </div>
@@ -333,28 +367,22 @@ export default function Home() {
             <div className="mx-auto max-w-7xl px-5 sm:px-8">
               <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
                 <div>
-                  <p className="text-xs font-semibold tracking-[0.3em] text-gold-600 uppercase">Why Participate</p>
+                  <p className="text-xs font-semibold tracking-[0.3em] text-gold-600 uppercase">{t("why.eyebrow")}</p>
                   <h2 className="font-display mt-3 text-3xl font-semibold leading-snug text-navy-900 sm:text-5xl">
-                    More than a contest — <br />
-                    <span className="text-goldgrad font-bold">a sadhana</span>
+                    {t("why.titleLead")} <br />
+                    <span className="text-goldgrad font-bold">{t("why.titleHighlight")}</span>
+                    {t("why.titleTail") ? ` ${t("why.titleTail")}` : ""}
                   </h2>
                   <p className="mt-6 max-w-xl leading-relaxed text-navy-900/70">
-                    Every shloka memorised, every essay written and every colour placed on
-                    canvas draws you closer to the eternal song of Shri Krishna. Walk this
-                    journey with thousands of fellow seekers of the Geeta Pariwar.
+                    {t("why.description")}
                   </p>
 
                   <div className="mt-10 grid gap-6 sm:grid-cols-2">
-                    {[
-                      ["🏆", "Recognition & Prizes", "Winners honoured at the grand Swarnim Varg ceremony."],
-                      ["📜", "Certificates for All", "Every participant receives a certificate of participation."],
-                      ["🪷", "Divine Wisdom", "Deepen your bond with the Bhagavad Geeta's teachings."],
-                      ["🤝", "A Global Family", "Connect with the worldwide LearnGeeta community."],
-                    ].map(([icon, title, desc]) => (
-                      <div key={title} className="rounded-2xl border border-gold-500/20 bg-cream-50 p-6 shadow-[0_10px_30px_-18px_rgba(16,31,92,0.25)]">
-                        <span className="text-2xl">{icon}</span>
-                        <h3 className="font-display mt-3 text-xl font-semibold text-navy-900">{title}</h3>
-                        <p className="mt-1.5 text-sm leading-relaxed text-navy-900/65">{desc}</p>
+                    {benefits.map((benefit, i) => (
+                      <div key={benefit.title} className="rounded-2xl border border-gold-500/20 bg-cream-50 p-6 shadow-[0_10px_30px_-18px_rgba(16,31,92,0.25)]">
+                        <span className="text-2xl">{WHY_ICONS[i]}</span>
+                        <h3 className="font-display mt-3 text-xl font-semibold text-navy-900">{benefit.title}</h3>
+                        <p className="mt-1.5 text-sm leading-relaxed text-navy-900/65">{benefit.description}</p>
                       </div>
                     ))}
                   </div>
@@ -365,17 +393,17 @@ export default function Home() {
                   <div className="gold-frame relative overflow-hidden rounded-[2rem] bg-white p-8">
                     <Image
                       src="/assets/logo-50-golden-batch.png"
-                      alt="LearnGeeta 50 — Golden Batch"
+                      alt={t("why.logoAlt")}
                       width={640}
                       height={560}
                       className="w-full"
                     />
                     <blockquote className="mt-2 border-t border-gold-500/25 pt-5 text-center">
                       <p className="font-display text-lg leading-relaxed text-navy-800">
-                        “कर्मण्येवाधिकारस्ते मा फलेषु कदाचन”
+                        &ldquo;{t("why.quote")}&rdquo;
                       </p>
                       <p className="mt-2 text-xs tracking-[0.15em] text-navy-900/55 uppercase">
-                        Bhagavad Geeta · 2.47
+                        {t("why.quoteSource")}
                       </p>
                     </blockquote>
                   </div>
@@ -396,19 +424,20 @@ export default function Home() {
               />
             </div>
             <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
-              <p className="text-sm tracking-[0.3em] text-gold-300 uppercase">॥ स्वर्णिम वर्ग ॥</p>
+              <p className="text-sm tracking-[0.3em] text-gold-300 uppercase">{t("finalCta.eyebrow")}</p>
               <h2 className="font-display mt-4 text-4xl font-semibold text-cream-50 sm:text-6xl">
-                Be part of the <span className="text-goldgrad font-bold">Golden Batch</span>
+                {t("finalCta.titleLead") ? `${t("finalCta.titleLead")} ` : ""}
+                <span className="text-goldgrad font-bold">{t("finalCta.titleHighlight")}</span>
+                {t("finalCta.titleTail") ? ` ${t("finalCta.titleTail")}` : ""}
               </h2>
               <p className="mx-auto mt-5 max-w-xl text-cream-100/70">
-                A golden opportunity awaits you. Register today and celebrate the 50th batch
-                of LearnGeeta with the whole pariwar.
+                {t("finalCta.description")}
               </p>
               <Link
                 href="/login"
-                className="bg-goldgrad mt-10 inline-block rounded-full px-12 py-4 text-base font-semibold text-navy-900 shadow-[0_20px_50px_-15px_rgba(214,160,47,0.8)] transition-transform hover:scale-[1.05]"
+                className="bg-goldgrad mt-10 inline-block rounded-full px-12 py-4 text-center text-base font-semibold text-navy-900 shadow-[0_20px_50px_-15px_rgba(214,160,47,0.8)] transition-transform hover:scale-[1.05]"
               >
-                Join Now
+                {t("finalCta.button")}
               </Link>
             </div>
           </section>
@@ -421,28 +450,40 @@ export default function Home() {
                   <div className="flex items-center justify-center gap-3 md:justify-start">
                     <LotusMark className="h-10 w-10" />
                     <div className="leading-tight">
-                      <p className="font-display text-xl font-bold tracking-[0.08em] text-cream-50">LEARNGEETA</p>
-                      <p className="text-[11px] font-medium tracking-[0.22em] text-gold-400">स्वर्णिम वर्ग · GOLDEN BATCH 50</p>
+                      <p className="font-display text-xl font-bold tracking-[0.08em] text-cream-50">{t("footer.brandName")}</p>
+                      <p className="text-[11px] font-medium tracking-[0.22em] text-gold-400">{t("footer.brandTagline")}</p>
                     </div>
                   </div>
-                  <p className="mt-4 text-sm leading-relaxed text-cream-100/55">
-                    An initiative of Geeta Pariwar — spreading the eternal wisdom of the
-                    Bhagavad Geeta to every home, in every language.
-                  </p>
+                  <div className="mt-5 flex items-center justify-center gap-4 md:justify-start">
+                    {/* the parent organisation's mark; the artwork is maroon on
+                        transparent, so it needs a light chip against the navy */}
+                    <span className="shrink-0 rounded-xl bg-cream-100 p-1.5">
+                      <Image
+                        src="/assets/geeta-pariwar-logo.png"
+                        alt={t("footer.pariwarLogoAlt")}
+                        width={387}
+                        height={363}
+                        className="h-14 w-auto"
+                      />
+                    </span>
+                    <p className="text-sm leading-relaxed text-cream-100/55">
+                      {t("footer.about")}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-12 text-center sm:gap-20 md:text-left">
                   <div>
-                    <p className="text-xs font-semibold tracking-[0.25em] text-gold-400 uppercase">Explore</p>
+                    <p className="text-xs font-semibold tracking-[0.25em] text-gold-400 uppercase">{t("footer.exploreHeading")}</p>
                     <ul className="mt-4 space-y-2.5 text-sm text-cream-100/65">
-                      <li><a href="#about" className="hover:text-gold-300">About</a></li>
-                      <li><a href="#competitions" className="hover:text-gold-300">Competitions</a></li>
-                      <li><a href="#why" className="hover:text-gold-300">Why Join</a></li>
-                      <li><Link href="/login" className="hover:text-gold-300">Login</Link></li>
+                      <li><a href="#about" className="hover:text-gold-300">{t("footer.links.about")}</a></li>
+                      <li><a href="#competitions" className="hover:text-gold-300">{t("footer.links.competitions")}</a></li>
+                      <li><a href="#why" className="hover:text-gold-300">{t("footer.links.why")}</a></li>
+                      <li><Link href="/login" className="hover:text-gold-300">{t("footer.links.login")}</Link></li>
                     </ul>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold tracking-[0.25em] text-gold-400 uppercase">Connect</p>
+                    <p className="text-xs font-semibold tracking-[0.25em] text-gold-400 uppercase">{t("footer.connectHeading")}</p>
                     <ul className="mt-4 space-y-2.5 text-sm text-cream-100/65">
                       <li><a href="https://learngeeta.com" target="_blank" rel="noreferrer" className="hover:text-gold-300">learngeeta.com</a></li>
                       <li><a href="mailto:support@learngeeta.com" className="hover:text-gold-300">support@learngeeta.com</a></li>
@@ -452,8 +493,8 @@ export default function Home() {
               </div>
 
               <div className="mt-12 border-t border-cream-50/10 pt-6 text-center text-xs text-cream-100/40">
-                <p>॥ गीता पढ़ें — गीता आत्मसात करें ॥</p>
-                <p className="mt-2">© {new Date().getFullYear()} LearnGeeta · Geeta Pariwar. All rights reserved.</p>
+                <p>{t("footer.motto")}</p>
+                <p className="mt-2">{t("footer.copyright", { year: new Date().getFullYear() })}</p>
               </div>
             </div>
           </footer>
