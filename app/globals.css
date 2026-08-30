@@ -1,26 +1,84 @@
 @import "tailwindcss";
+@import "locomotive-scroll/dist/locomotive-scroll.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-navy-950: #0a1638;
+  --color-navy-900: #101f5c;
+  --color-navy-800: #14276e;
+  --color-navy-700: #1b3488;
+  --color-royal-600: #2456b8;
+  --color-royal-500: #2e6ad6;
+  --color-gold-200: #f7e7bb;
+  --color-gold-300: #f0d28a;
+  --color-gold-400: #e3b85c;
+  --color-gold-500: #d6a02f;
+  --color-gold-600: #b9821c;
+  --color-gold-700: #96660f;
+  --color-cream-50: #fdfbf5;
+  --color-cream-100: #f8f3e7;
+  --color-cream-200: #f1e9d6;
+  --color-cream-300: #e6dabd;
+  --color-teal-500: #2cbfb4;
+  --color-emerald-600: #1f9e52;
+
+  --font-display: var(--font-cormorant), var(--font-poppins), Georgia, serif;
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream-50);
+  color: #1c2547;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
+
+/* ——— golden gradient text ——— */
+.text-goldgrad {
+  background: linear-gradient(165deg, #f5d98b 0%, #e4b44c 38%, #c88a1d 72%, #a96f0e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ——— gold gradient surfaces ——— */
+.bg-goldgrad {
+  background: linear-gradient(135deg, #f2d488 0%, #ddad3e 45%, #c1871b 100%);
+}
+
+/* ——— soft gold ring for framed images ——— */
+.gold-frame {
+  border: 1px solid rgba(214, 160, 47, 0.55);
+  box-shadow:
+    0 0 0 6px rgba(214, 160, 47, 0.12),
+    0 24px 60px -20px rgba(16, 31, 92, 0.35);
+}
+
+/* ——— feathered mandala mask ——— */
+.mask-feather {
+  -webkit-mask-image: radial-gradient(circle, black 28%, transparent 66%);
+  mask-image: radial-gradient(circle, black 28%, transparent 66%);
+}
+
+/* ——— marquee band ——— */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* gentle float for decorative petals */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(4deg); }
+}
+.animate-floaty { animation: floaty 7s ease-in-out infinite; }
+.animate-floaty-slow { animation: floaty 11s ease-in-out infinite; }
+
+/* locomotive: keep native feel on small screens */
+html.has-scroll-smooth body { overscroll-behavior: none; }

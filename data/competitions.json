@@ -1,0 +1,59 @@
+{
+  "competitions": [
+    {
+      "id": "comp_1",
+      "name": "Shloka Pathan (Recitation)",
+      "description": "Recite selected chapters and shlokas from the Bhagavad Geeta with clear pronunciation, correct meter, and devotion.",
+      "eligibility": "Open to all age groups (Categories: Children, Youth, Adults)",
+      "rules": [
+        "Participants must memorize the assigned chapters.",
+        "Evaluation will be based on clarity, pronunciation (Uchcharan), and rhythm (Laya).",
+        "Time limit per participant is 5 minutes."
+      ]
+    },
+    {
+      "id": "comp_2",
+      "name": "Geeta Maha Quiz",
+      "description": "A comprehensive quiz testing your knowledge on the philosophy, characters, and core teachings of the Bhagavad Geeta.",
+      "eligibility": "Age 12 and above",
+      "rules": [
+        "First round will be a written multiple-choice test.",
+        "Top 10 scorers will move to the live rapid-fire stage.",
+        "Use of any reference material during the quiz is strictly prohibited."
+      ]
+    },
+    {
+      "id": "comp_3",
+      "name": "Essay Writing Competition",
+      "description": "Express your thoughts on how the timeless teachings of the Geeta apply to modern-day challenges and youth.",
+      "eligibility": "Age 15 and above",
+      "rules": [
+        "Topics will be provided 24 hours in advance.",
+        "Word limit: 1000 - 1500 words.",
+        "Submissions must be original. Plagiarized content will be immediately disqualified."
+      ]
+    },
+    {
+      "id": "comp_4",
+      "name": "Geeta Chitra Kala (Poster Making)",
+      "description": "Visually depict a prominent scene, concept, or moral from the Bhagavad Geeta through art and colors.",
+      "eligibility": "Children (Age 5 to 15)",
+      "rules": [
+        "Standard A3 drawing sheets will be provided at the venue.",
+        "Participants must bring their own art supplies (crayons, watercolors, pencils).",
+        "Time limit: 2 hours."
+      ]
+    },
+    {
+      "id": "comp_5",
+      "name": "Elocution (Vaktutva Spardha)",
+      "description": "Deliver an impactful speech on the topic 'Karma Yoga: The Secret of Work' based on Geeta's teachings.",
+      "eligibility": "Age 18 and above",
+      "rules": [
+        "Speech can be delivered in English, Hindi, or Sanskrit.",
+        "Time limit per speaker is 3 to 5 minutes.",
+        "Points will be awarded for content clarity, confidence, and articulation."
+      ]
+    }
+  ]
+}
