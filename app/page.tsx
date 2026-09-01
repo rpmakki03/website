@@ -257,14 +257,7 @@ export default function Home() {
                             {comp.description}
                           </p>
 
-                          <div className="mt-4 flex flex-wrap gap-1.5">
-                            <span className="rounded-full border border-teal-500/40 bg-teal-500/10 px-3 py-1.5 text-[11px] font-semibold text-teal-600">
-                              {comp.participants}
-                            </span>
-                            <span className="rounded-full border border-gold-400/40 bg-gold-500/10 px-3 py-1.5 text-[11px] font-semibold text-gold-700">
-                              {comp.window}
-                            </span>
-                          </div>
+                          {/* Chips removed from card, shown in Know More instead */}
 
                           <div className="mt-auto flex items-center gap-2.5 pt-5">
                             <Link

@@ -83,7 +83,7 @@ export const ACTIVITIES: Record<Activity["id"], Activity> = {
     tagline: "“आपने गीता को कैसे समझा — उसे अपने रंगों में दिखाइये।”",
     accent: "#2456b8",
     hook: "Paint one Geeta thought — in your own colours.",
-    chips: ["Worldwide", "4 – 24 Sep", "Free entry"],
+    chips: ["Free entry"],
     facts: [
       { label: "You submit", value: "One handmade artwork + a short statement" },
       { label: "Closes", value: "24 September" },
@@ -135,7 +135,7 @@ export const ACTIVITIES: Record<Activity["id"], Activity> = {
     tagline: "“एक श्लोक • एक स्वर • एक जीवन-सन्देश”",
     accent: "#2cbfb4",
     hook: "One shloka. Its meaning. Where it fits your life.",
-    chips: ["Worldwide", "4 – 22 Sep", "60–180 sec"],
+    chips: ["60–180 sec"],
     facts: [
       { label: "You submit", value: "A public Instagram Reel, 60–180 sec" },
       { label: "Closes", value: "22 September · reach counted to 29 Sep" },
@@ -186,7 +186,7 @@ export const ACTIVITIES: Record<Activity["id"], Activity> = {
     tagline: "One attempt. All eighteen chapters. Your Geeta gyan on the global stage.",
     accent: "#d6a02f",
     hook: "50 questions. 35 minutes. One scored attempt.",
-    chips: ["Worldwide", "12 – 20 Sep", "Your language"],
+    chips: ["Your language"],
     facts: [
       { label: "Format", value: "50 MCQs across all 18 chapters" },
       { label: "Time", value: "About 35 minutes, one attempt" },
@@ -236,7 +236,7 @@ export const ACTIVITIES: Record<Activity["id"], Activity> = {
     tagline: "एक Geeta विचार • एक सच्चा अनुभव • एक प्रभावी अभिव्यक्ति",
     accent: "#1f9e52",
     hook: "One Geeta thought that actually changed something in you.",
-    chips: ["Worldwide", "4 – 23 Sep", "60–90 sec"],
+    chips: ["60–90 sec"],
     facts: [
       { label: "You submit", value: "A public Instagram Reel, ideally 60 sec" },
       { label: "Closes", value: "23 September · reach counted to 30 Sep" },
@@ -288,7 +288,7 @@ export const ACTIVITIES: Record<Activity["id"], Activity> = {
     tagline: "Meaning वही रहे • Presentation नया हो • Reach अधिक हो",
     accent: "#2e6ad6",
     hook: "Re-cut an approved Vivechan into 30–60 seconds that travel.",
-    chips: ["Open to all", "Publish 17–18 Sep", "30–60 sec"],
+    chips: ["30–60 sec"],
     facts: [
       { label: "You submit", value: "A published Reel + your master MP4" },
       { label: "Publishing window", value: "17 – 18 September only" },
