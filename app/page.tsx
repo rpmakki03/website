@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Header, { LotusMark } from "@/components/Header";
 import SmoothScroll from "@/components/SmoothScroll";
 import { useTranslation } from "@/lib/i18n";
+import { Modal } from "@/components/activities/ui";
 
 /* ————————————————— localized content shapes ————————————————— */
 
@@ -82,6 +84,7 @@ const WHY_ICONS = ["🏆", "📜", "🪷", "🤝"];
 
 export default function Home() {
   const { t, raw } = useTranslation();
+  const [activeComp, setActiveComp] = useState<Competition | null>(null);
 
   const competitions = raw<Competition[]>("competitions.items");
   const stats = raw<Stat[]>("hero.stats");
@@ -293,7 +296,7 @@ export default function Home() {
                 {competitions.map((comp, i) => (
                   <article
                     key={comp.id}
-                    className="group relative flex flex-col rounded-3xl border border-gold-500/25 bg-navy-700/85 p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-gold-400/60 hover:bg-navy-700/95 hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,0.55)]"
+                    className="group relative flex flex-col rounded-3xl border border-gold-500/25 bg-slate-100/95 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-gold-500/50 hover:bg-slate-50 hover:shadow-[0_30px_60px_-20px_rgba(16,31,92,0.15)]"
                   >
                     <span
                       className="absolute inset-x-8 top-0 h-[3px] rounded-b"
@@ -308,39 +311,30 @@ export default function Home() {
                           {ICONS[comp.id]}
                         </svg>
                       </span>
-                      <span className="font-display text-5xl font-bold text-cream-50/10 transition-colors group-hover:text-gold-300/25">
+                      <span className="font-display text-5xl font-bold text-navy-900/10 transition-colors group-hover:text-navy-900/25">
                         0{i + 1}
                       </span>
                     </div>
 
-                    <h3 className="font-display mt-6 text-2xl font-semibold text-cream-50">{comp.name}</h3>
-                    <p className="mt-1 text-[13px] font-medium tracking-wide text-gold-300/90">{comp.subtitle}</p>
-                    <p className="mt-3 text-sm leading-relaxed text-cream-100/70">{comp.description}</p>
+                    <h3 className="font-display mt-6 text-2xl font-semibold text-navy-900">{comp.name}</h3>
+                    <p className="mt-1 text-[13px] font-medium tracking-wide text-navy-800">{comp.subtitle}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-navy-900/70">{comp.description}</p>
 
                     <div className="mt-5 flex flex-wrap gap-2">
                       <span className="w-fit rounded-full border border-teal-500/40 bg-teal-500/10 px-3.5 py-1.5 text-xs font-medium text-teal-500">
                         {comp.participants}
                       </span>
-                      <span className="w-fit rounded-full border border-gold-400/40 bg-gold-500/10 px-3.5 py-1.5 text-xs font-medium text-gold-300">
+                      <span className="w-fit rounded-full border border-gold-400/40 bg-gold-500/10 px-3.5 py-1.5 text-xs font-medium text-gold-700">
                         {comp.window}
                       </span>
                     </div>
 
-                    <ul className="mt-5 space-y-2.5 border-t border-cream-50/10 pt-5">
-                      {comp.highlights.map((line) => (
-                        <li key={line} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-cream-100/60">
-                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-400" />
-                          {line}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <Link
-                      href="/login"
-                      className="mt-auto pt-7 text-sm font-semibold text-gold-300 transition-colors group-hover:text-gold-200"
+                    <button
+                      onClick={() => setActiveComp(comp)}
+                      className="mt-auto pt-7 text-left text-sm font-semibold text-navy-900 transition-colors group-hover:text-navy-700"
                     >
-                      {t("competitions.registerCta")}
-                    </Link>
+                      Know More →
+                    </button>
                   </article>
                 ))}
 
@@ -362,6 +356,43 @@ export default function Home() {
                 </article>
               </div>
             </div>
+
+            <Modal
+              open={!!activeComp}
+              onClose={() => setActiveComp(null)}
+              title={activeComp?.name || ""}
+              subtitle={activeComp?.subtitle}
+            >
+              {activeComp && (
+                <>
+                  <p className="mt-2 text-sm leading-relaxed text-navy-900/70">{activeComp.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="w-fit rounded-full border border-teal-500/40 bg-teal-500/10 px-3.5 py-1.5 text-xs font-medium text-teal-500">
+                      {activeComp.participants}
+                    </span>
+                    <span className="w-fit rounded-full border border-gold-400/40 bg-gold-500/10 px-3.5 py-1.5 text-xs font-medium text-gold-700">
+                      {activeComp.window}
+                    </span>
+                  </div>
+                  <ul className="mt-5 space-y-2.5 border-t border-navy-900/10 pt-5">
+                    {activeComp.highlights.map((line) => (
+                      <li key={line} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-navy-900/70">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-400" />
+                        {line}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-8 flex justify-end">
+                    <Link
+                      href="/login"
+                      className="bg-goldgrad rounded-full px-8 py-3 text-sm font-semibold text-navy-900 shadow-[0_14px_35px_-12px_rgba(185,130,28,0.9)] transition-transform hover:scale-[1.03]"
+                    >
+                      {t("competitions.registerCta")}
+                    </Link>
+                  </div>
+                </>
+              )}
+            </Modal>
           </section>
 
           {/* ————— WHY JOIN ————— */}
