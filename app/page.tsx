@@ -180,9 +180,18 @@ export default function Home() {
             <div className="animate-marquee flex w-max whitespace-nowrap">
               {Array.from({ length: 2 }).map((_, half) => (
                 <div key={half} className="flex items-center">
-                  {Array.from({ length: 8 }).map((_, i) => (
+                  {[
+                    { s: "॥ स्वर्णिम वर्ग ॥", l: "GOLDEN BATCH 50" },
+                    { s: "॥ स्वर्णिम वर्ग ॥", l: "स्वर्णिम वर्ग 50" },
+                    { s: "॥ સ્વર્ણિમ વર્ગ ॥", l: "સુવર્ણ વર્ગ 50" },
+                    { s: "॥ স্বর্ণিম বর্গ ॥", l: "গোল্ডেন ব্যাচ 50" },
+                    { s: "॥ ସ୍ୱର୍ଣ୍ଣିମ ବର୍ଗ ॥", l: "ସୁବର୍ଣ୍ଣ ବ୍ୟାଚ୍ 50" },
+                    { s: "॥ స్వర్ణిమ వర్గ ॥", l: "స్వర్ణ బ్యాచ్ 50" },
+                    { s: "॥ ಸ್ವರ್ಣಿಮ ವರ್ಗ ॥", l: "ಸುವರ್ಣ ಬ್ಯಾಚ್ 50" },
+                    { s: "॥ സ്വർണിമ വർഗ ॥", l: "സുവർണ ബാച്ച് 50" },
+                  ].map((phrase, i) => (
                     <span key={i} className="mx-5 flex items-center gap-5 text-xs font-bold tracking-[0.15em] text-navy-900 sm:mx-6 sm:gap-6 sm:text-sm sm:tracking-[0.2em]">
-                      {t("marquee.sanskrit")} <span className="text-navy-900/60">✦</span> {t("marquee.latin")}
+                      {phrase.s} <span className="text-navy-900/60">✦</span> {phrase.l}
                       <span className="text-navy-900/60">✦</span>
                     </span>
                   ))}
