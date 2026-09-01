@@ -19,7 +19,7 @@
     "why": "Why Join",
     "contact": "Contact",
     "login": "Login",
-    "joinNow": "Join Now",
+    "joinNow": "Join now",
     "toggleMenu": "Toggle menu"
   },
   "hero": {
@@ -29,7 +29,7 @@
     "titleHighlight": "Swarnim Varg",
     "titleTail": "of LearnGeeta",
     "description": "The 50th batch of LearnGeeta — the Golden Batch — begins soon. To mark this milestone, we invite you to a grand worldwide celebration of the Bhagavad Geeta through five divine competitions, open to every age.",
-    "ctaPrimary": "Join Now — It's Free",
+    "ctaPrimary": "Join now — It's Free",
     "ctaSecondary": "Explore Competitions",
     "stats": [
       {
@@ -73,7 +73,7 @@
       "Certificates and recognition for all participants",
       "Guided by the Geeta Pariwar tradition of seva and swadhyay"
     ],
-    "cta": "join now"
+    "cta": "Join now"
   },
   "competitions": {
     "eyebrow": "Swarnim Varg 2026",
@@ -148,7 +148,7 @@
       "titleLine1": "Can't decide?",
       "titleLine2": "Join them all.",
       "description": "One account opens the door to every Swarnim Varg competition.",
-      "button": "Join Now"
+      "button": "Join now"
     },
     "knowMore": "Know more",
     "viewAll": "See all five competitions",
@@ -188,7 +188,7 @@
     "titleHighlight": "Golden Batch",
     "titleTail": "",
     "description": "A golden opportunity awaits you. Register today and celebrate the 50th batch of LearnGeeta with the whole pariwar.",
-    "button": "Join Now"
+    "button": "Join now"
   },
   "footer": {
     "brandName": "LEARNGEETA",
