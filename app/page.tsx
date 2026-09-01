@@ -133,14 +133,13 @@ export default function Home() {
                 {t("hero.eyebrow")}
               </p>
 
-              <h1 className="font-display mt-3 text-[42px] leading-[1.08] font-bold text-navy-900 sm:mt-4 sm:text-6xl md:text-7xl">
+              <h1 className="font-display mt-3 text-[48px] leading-none font-bold text-navy-900 sm:mt-4 sm:text-[70px] md:text-[84px]">
                 LearnGeeta
-                <br />
-                <span className="text-goldgrad text-[28px] sm:text-4xl md:text-5xl inline-block mt-2">Competitions</span>
+                <span className="text-goldgrad text-[32px] sm:text-[42px] md:text-[56px] block -mt-1 sm:-mt-3 md:-mt-4">Competitions</span>
               </h1>
 
               <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-navy-900/70 sm:text-lg">
-                Celebrate the Swarnim Varg of LearnGeeta with 5 exciting competitions
+                {t("hero.shortDescription")}
               </p>
 
               {/* CTAs — full-width and thumb-sized on a phone */}
