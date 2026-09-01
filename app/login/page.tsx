@@ -47,18 +47,18 @@ export default function LoginPage() {
         </aside>
 
         {/* ——— form panel ——— */}
-        <section className="flex flex-1 items-center justify-center bg-cream-50 px-5 pb-16 pt-28 sm:px-8">
+        <section className="flex flex-1 items-center justify-center bg-cream-50 px-4 pb-12 pt-24 sm:px-8 sm:pb-16 sm:pt-28">
           <div className="w-full max-w-md">
-            <div className="rounded-[2rem] border border-gold-500/25 bg-white p-8 shadow-[0_30px_70px_-30px_rgba(16,31,92,0.35)] sm:p-10">
+            <div className="rounded-[1.75rem] border border-gold-500/25 bg-white p-6 shadow-[0_30px_70px_-30px_rgba(16,31,92,0.35)] sm:rounded-[2rem] sm:p-10">
               <Image
                 src="/assets/logo-50-golden-batch.png"
                 alt="LearnGeeta 50 — Golden Batch"
                 width={300}
                 height={262}
                 priority
-                className="mx-auto w-44"
+                className="mx-auto w-36 sm:w-44"
               />
-              <h2 className="font-display mt-4 text-center text-3xl font-semibold text-navy-900">
+              <h2 className="font-display mt-4 text-center text-[28px] font-bold text-navy-900 sm:text-3xl">
                 Welcome back
               </h2>
               <p className="mt-2 text-center text-sm text-navy-900/60">
@@ -68,7 +68,7 @@ export default function LoginPage() {
               {/* LearnGeeta SSO */}
               <button
                 type="button"
-                className="mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-navy-800 px-6 py-4 text-sm font-semibold text-cream-50 shadow-[0_16px_40px_-16px_rgba(16,31,92,0.8)] transition-all hover:bg-navy-700 hover:shadow-[0_18px_45px_-14px_rgba(16,31,92,0.9)]"
+                className="mt-7 flex min-h-[56px] w-full items-center justify-center gap-3 rounded-full bg-navy-800 px-6 text-[15px] font-bold text-cream-50 shadow-[0_16px_40px_-16px_rgba(16,31,92,0.8)] transition-all hover:bg-navy-700 hover:shadow-[0_18px_45px_-14px_rgba(16,31,92,0.9)]"
               >
                 <LotusMark className="h-6 w-6" />
                 Login using LearnGeeta
@@ -94,7 +94,7 @@ export default function LoginPage() {
                     type="email"
                     autoComplete="email"
                     placeholder="you@example.com"
-                    className="w-full rounded-xl border border-navy-900/15 bg-cream-50 px-4 py-3 text-sm text-navy-900 placeholder:text-navy-900/35 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-400/40"
+                    className="w-full rounded-xl border border-navy-900/15 bg-cream-50 px-4 py-3.5 text-base text-navy-900 placeholder:text-navy-900/35 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-400/40 sm:text-sm"
                   />
                 </div>
                 <div>
@@ -111,12 +111,12 @@ export default function LoginPage() {
                     type="password"
                     autoComplete="current-password"
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-navy-900/15 bg-cream-50 px-4 py-3 text-sm text-navy-900 placeholder:text-navy-900/35 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-400/40"
+                    className="w-full rounded-xl border border-navy-900/15 bg-cream-50 px-4 py-3.5 text-base text-navy-900 placeholder:text-navy-900/35 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-400/40 sm:text-sm"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="bg-goldgrad w-full rounded-full px-6 py-3.5 text-sm font-semibold text-navy-900 shadow-[0_14px_35px_-12px_rgba(185,130,28,0.85)] transition-transform hover:scale-[1.02]"
+                  className="bg-goldgrad min-h-[54px] w-full rounded-full px-6 text-[15px] font-bold text-navy-900 shadow-[0_14px_35px_-12px_rgba(185,130,28,0.85)] transition-transform active:scale-[0.98] sm:hover:scale-[1.02]"
                 >
                   Sign In
                 </button>

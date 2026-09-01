@@ -14,6 +14,14 @@ const NAV = [
   { key: "nav.contact", target: "#contact" },
 ];
 
+/**
+ * Off the landing page the "Competitions" item goes to the real hub route
+ * rather than back to the home anchor — from a competition screen the hub is
+ * what people actually want.
+ */
+const hrefFor = (target: string) =>
+  target === "#competitions" ? "/competitions" : `/${target}`;
+
 function LotusMark({ className = "h-9 w-9" }: { className?: string }) {
   return (
     <svg viewBox="0 0 48 48" className={className} aria-hidden="true">
@@ -67,27 +75,36 @@ export default function Header() {
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:gap-4 sm:px-8">
         {/* brand */}
-        <Link href="/" className="group flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
+        <Link href="/" className="group flex min-w-0 items-center gap-2.5" onClick={() => setOpen(false)}>
+          {/* Geeta Pariwar is the parent organisation and leads the lockup; the
+              50 lotus sits beside it as the campaign mark, and drops out first
+              when the row gets tight. */}
+          <Image
+            src="/assets/geeta-pariwar-logo.png"
+            alt={t("footer.pariwarLogoAlt")}
+            width={387}
+            height={363}
+            priority
+            className="h-11 w-auto shrink-0 sm:h-12"
+          />
+          <span className="h-8 w-px shrink-0 bg-gold-500/35 max-[330px]:hidden" aria-hidden="true" />
+          <span className="min-w-0 leading-tight max-[330px]:hidden">
+            <span className="block font-display text-base font-bold tracking-[0.06em] text-navy-800 uppercase sm:text-xl sm:tracking-[0.08em]">
+              LearnGeeta
+            </span>
+            <span className="block truncate text-[9px] font-bold tracking-[0.2em] text-navy-800 uppercase sm:text-[10px]">
+              Competitions
+            </span>
+          </span>
           <Image
             src="/assets/logo-mark.png"
             alt=""
             width={400}
             height={309}
-            priority
-            className="h-10 w-auto shrink-0"
+            className="hidden h-9 w-auto shrink-0 xl:block"
           />
-          <span className="min-w-0 leading-tight">
-            <span className="block font-display text-xl font-bold tracking-[0.08em] text-navy-800">
-              {t("brand.name")}
-            </span>
-            {/* the tagline is the first thing to go when the row gets tight —
-                a clipped "Golde…" reads worse than the wordmark alone */}
-            <span className="block truncate text-[11px] font-medium tracking-[0.22em] text-gold-600 max-[380px]:hidden">
-              {t("brand.tagline")}
-            </span>
-          </span>
         </Link>
 
         {/* desktop nav */}
@@ -104,7 +121,7 @@ export default function Header() {
             ) : (
               <Link
                 key={item.key}
-                href={`/${item.target}`}
+                href={hrefFor(item.target)}
                 className="text-sm font-medium whitespace-nowrap text-navy-800/80 transition-colors hover:text-gold-600"
               >
                 {t(item.key)}
@@ -154,16 +171,16 @@ export default function Header() {
                 <button
                   key={item.key}
                   onClick={() => goTo(item.target)}
-                  className="rounded-lg px-3 py-3 text-left text-[15px] font-medium text-navy-800 hover:bg-cream-200"
+                  className="rounded-lg px-3 py-3.5 text-left text-[16px] font-semibold text-navy-800 hover:bg-cream-200"
                 >
                   {t(item.key)}
                 </button>
               ) : (
                 <Link
                   key={item.key}
-                  href={`/${item.target}`}
+                  href={hrefFor(item.target)}
                   onClick={() => setOpen(false)}
-                  className="rounded-lg px-3 py-3 text-[15px] font-medium text-navy-800 hover:bg-cream-200"
+                  className="rounded-lg px-3 py-3.5 text-[16px] font-semibold text-navy-800 hover:bg-cream-200"
                 >
                   {t(item.key)}
                 </Link>
@@ -174,14 +191,14 @@ export default function Header() {
             <Link
               href="/login"
               onClick={() => setOpen(false)}
-              className="flex-1 rounded-full border border-navy-800/25 px-5 py-3 text-center text-sm font-semibold text-navy-800"
+              className="flex min-h-[52px] flex-1 items-center justify-center rounded-full border-2 border-navy-800/25 px-5 text-center text-[15px] font-bold text-navy-800"
             >
               {t("nav.login")}
             </Link>
             <Link
               href="/login"
               onClick={() => setOpen(false)}
-              className="bg-goldgrad flex-1 rounded-full px-5 py-3 text-center text-sm font-semibold text-navy-900"
+              className="bg-goldgrad flex min-h-[52px] flex-1 items-center justify-center rounded-full px-5 text-center text-[15px] font-bold text-navy-900"
             >
               {t("nav.joinNow")}
             </Link>

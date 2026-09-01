@@ -2,11 +2,22 @@
  * Frontend-only data for the five Swarnim Varg activity screens,
  * sourced from the final competition SOPs. No backend yet — the
  * submission panels mock their success states.
+ *
+ * Copy here is deliberately short and scannable: the SOP paragraphs were
+ * unreadable on a phone, so every card carries a bold headline plus one
+ * supporting line, and the long-form detail lives behind "Know more".
+ *
+ * Two things are intentionally NOT surfaced to participants: the jury /
+ * reach weighting (65-35 etc.) and the age-category table. Weighting is an
+ * internal judging matter, and the varg is derived from the date of birth
+ * we collect in the submission form.
  */
 
-export type AgeGroup = { varg: string; range: string };
+export type AgeGroup = { varg: string; range: string; maxAge: number };
 
 export type TimelineRow = { period: string; event: string };
+
+export type Step = { title: string; text: string };
 
 export type Activity = {
   id: "chitrakala" | "swar" | "gyan" | "expression" | "vivechan";
@@ -14,23 +25,50 @@ export type Activity = {
   subtitle: string;
   tagline: string;
   accent: string;
+  /** One bold line for cards and the hub grid. */
+  hook: string;
+  /** Short chips — 2 to 4 words each so they never wrap on a 360px screen. */
   chips: string[];
+  /** Scannable key-value strip shown on the card and in the detail sheet. */
+  facts: { label: string; value: string }[];
   about: string[];
-  steps: string[];
+  steps: Step[];
   timeline: TimelineRow[];
-  evaluation: { label: string; value: string }[];
+  recognition: string[];
   dos: string[];
   donts: string[];
   openToAll?: boolean;
 };
 
+/**
+ * Internal only — used to derive a participant's varg from their date of
+ * birth. Never rendered as a list; participants just enter their DOB.
+ */
 export const AGE_GROUPS: AgeGroup[] = [
-  { varg: "Abhimanyu Varg", range: "Under 12 years" },
-  { varg: "Arjun Varg", range: "12 – 17 years" },
-  { varg: "Bheem Varg", range: "18 – 30 years" },
-  { varg: "Yudhishthir Varg", range: "31 – 50 years" },
-  { varg: "Bheeshm Varg", range: "51 years & above" },
+  { varg: "Abhimanyu Varg", range: "Under 12 years", maxAge: 11 },
+  { varg: "Arjun Varg", range: "12 – 17 years", maxAge: 17 },
+  { varg: "Bheem Varg", range: "18 – 30 years", maxAge: 30 },
+  { varg: "Yudhishthir Varg", range: "31 – 50 years", maxAge: 50 },
+  { varg: "Bheeshm Varg", range: "51 years & above", maxAge: 200 },
 ];
+
+/** Whole years completed on `on` (defaults to today). */
+export function ageFromDob(dob: string, on = new Date()): number | null {
+  if (!dob) return null;
+  const d = new Date(dob);
+  if (Number.isNaN(d.getTime())) return null;
+  let age = on.getFullYear() - d.getFullYear();
+  const m = on.getMonth() - d.getMonth();
+  if (m < 0 || (m === 0 && on.getDate() < d.getDate())) age -= 1;
+  return age >= 0 && age < 120 ? age : null;
+}
+
+/** The varg a date of birth falls into — assigned silently, never chosen. */
+export function vargForDob(dob: string): AgeGroup | null {
+  const age = ageFromDob(dob);
+  if (age === null) return null;
+  return AGE_GROUPS.find((g) => age <= g.maxAge) ?? AGE_GROUPS[AGE_GROUPS.length - 1];
+}
 
 export const LANGUAGES = [
   "Hindi", "English", "Marathi", "Telugu", "Kannada",
@@ -41,45 +79,50 @@ export const ACTIVITIES: Record<Activity["id"], Activity> = {
   chitrakala: {
     id: "chitrakala",
     name: "Geeta Chitrakala",
-    subtitle: "Global Drawing & Painting Competition",
+    subtitle: "Drawing & Painting",
     tagline: "“आपने गीता को कैसे समझा — उसे अपने रंगों में दिखाइये।”",
     accent: "#2456b8",
-    chips: ["Worldwide · 5 age groups", "4 – 24 Sep", "100% Jury", "No entry fee"],
+    hook: "Paint one Geeta thought — in your own colours.",
+    chips: ["Worldwide", "4 – 24 Sep", "Free entry"],
+    facts: [
+      { label: "You submit", value: "One handmade artwork + a short statement" },
+      { label: "Closes", value: "24 September" },
+      { label: "Entry fee", value: "None" },
+    ],
     about: [
-      "This is not merely a Krishna drawing competition. Express a thought, episode, character, value or life-message of the Bhagavad Geeta through your own original art.",
-      "Evaluation rests on Geeta understanding, original thought, creativity and artistic expression. A compulsory short statement — “मेरे चित्र का भाव” — accompanies every artwork, explaining its connection to the Geeta.",
+      "This is not a Krishna drawing contest. Pick one thought, episode, character or life-message of the Geeta and express it as your own original art.",
+      "Every artwork carries a short statement — “मेरे चित्र का भाव” — in your own words, saying what the Geeta idea behind it is.",
     ],
     steps: [
-      "Register once on the portal and note your Participant ID.",
-      "Create one handmade physical artwork connected meaningfully to the Geeta.",
-      "Write your artwork statement — “मेरे चित्र का भाव” — in your own words.",
-      "Photograph or scan the artwork clearly and submit it with your statement before 24 September.",
-      "Jury evaluation is age-group-wise; shortlisted entries go through originality verification.",
+      { title: "Register", text: "One account, one Participant ID." },
+      { title: "Create", text: "A handmade artwork tied to a Geeta idea." },
+      { title: "Write the भाव", text: "A few lines on the thought behind it." },
+      { title: "Submit", text: "A clear photo or scan, before 24 September." },
     ],
     timeline: [
-      { period: "4 Sep", event: "Janmashtami Grand Launch · Portal opens" },
-      { period: "4 – 24 Sep", event: "Registration, artwork creation & submission" },
-      { period: "25 – 28 Sep", event: "Eligibility + originality screening" },
-      { period: "29 Sep – 3 Oct", event: "Age-wise jury evaluation" },
-      { period: "6 – 15 Oct", event: "Top entries & winners showcase" },
-      { period: "16 Oct", event: "Golden Batch Opening · Golden Gallery showcase" },
+      { period: "4 Sep", event: "Janmashtami launch · portal opens" },
+      { period: "4 – 24 Sep", event: "Create and submit your artwork" },
+      { period: "25 – 28 Sep", event: "Eligibility and originality screening" },
+      { period: "29 Sep – 3 Oct", event: "Evaluation" },
+      { period: "6 – 15 Oct", event: "Top entries showcase" },
+      { period: "16 Oct", event: "Golden Batch opening · Golden Gallery" },
     ],
-    evaluation: [
-      { label: "Jury", value: "100%" },
-      { label: "Recognition", value: "Top 3 per age group · Top 10 merit" },
-      { label: "Certificate", value: "All valid entries" },
+    recognition: [
+      "Certificate for every valid entry",
+      "Top entries featured in the Golden Gallery",
+      "Winners honoured at the Golden Batch opening",
     ],
     dos: [
-      "Shri Krishna in any form or age — with a clear Geeta connection",
+      "Shri Krishna in any form — with a clear Geeta connection",
       "Krishna–Arjuna in any pose, mood or original composition",
       "Mahabharata characters tied to a Geeta idea — duty, dharma, courage, karma",
-      "Visual interpretation of any Geeta shloka or value",
-      "Modern-life & symbolic art — the “inner Kurukshetra”, karma yoga at work",
-      "Golden Batch themes — Geeta in every home, family study, many languages",
+      "A visual reading of any Geeta shloka or value",
+      "Modern-life and symbolic art — the “inner Kurukshetra”, karma yoga at work",
+      "Golden Batch themes — Geeta in every home, in every language",
     ],
     donts: [
       "A generic Krishna portrait with no Geeta connection",
-      "Only leela scenes (Makhan Chor, Govardhan…) without a Geeta thought",
+      "Leela scenes alone (Makhan Chor, Govardhan…) without a Geeta thought",
       "Plain battle scenes or devotional art unrelated to the Geeta",
       "Political or commercial content of any kind",
     ],
@@ -88,133 +131,150 @@ export const ACTIVITIES: Record<Activity["id"], Activity> = {
   swar: {
     id: "swar",
     name: "Geeta Swar",
-    subtitle: "Shloka · Meaning · Life Application Challenge",
+    subtitle: "Shloka Recitation Reel",
     tagline: "“एक श्लोक • एक स्वर • एक जीवन-सन्देश”",
     accent: "#2cbfb4",
-    chips: ["Worldwide · 5 age groups", "4 – 22 Sep · cut-off 29 Sep", "65% Jury + 35% Reach", "No entry fee"],
+    hook: "One shloka. Its meaning. Where it fits your life.",
+    chips: ["Worldwide", "4 – 22 Sep", "60–180 sec"],
+    facts: [
+      { label: "You submit", value: "A public Instagram Reel, 60–180 sec" },
+      { label: "Closes", value: "22 September · reach counted to 29 Sep" },
+      { label: "Multiple entries", value: "Yes — your best reel is taken" },
+    ],
     about: [
-      "Not just shloka recitation. Recite one of the Geeta's 700 shlokas with pure pronunciation, explain its simple meaning, and share where it applies in life today.",
-      "Publish it as a 60–180 second vertical Instagram Reel. You may submit multiple reels on different shlokas — at cut-off, your highest-reach eligible reel becomes your competition entry.",
+      "Not just recitation. Recite any one of the Geeta's 700 shlokas with clear pronunciation, explain it simply, then say where it applies in life today.",
+      "Publish it as a vertical Instagram Reel. Add as many reels as you like — the strongest eligible one becomes your entry.",
     ],
     steps: [
-      "Register once on the portal and receive your Participant ID.",
-      "Choose any one shloka from the 700 shlokas of the Bhagavad Geeta.",
-      "Record a 60–180 sec vertical Reel: short intro → shloka recitation → simple meaning → life application → Golden Batch invitation.",
-      "Post it public on Instagram; tag the official LearnGeeta / Geeta Pariwar account and use the official hashtags with joingeeta.com in the caption.",
-      "Add the Reel URL, Adhyaya, Shloka number and explanation language on the portal — repeat for as many reels as you like.",
+      { title: "Register", text: "One account, one Participant ID." },
+      { title: "Choose a shloka", text: "Any one of the 700." },
+      { title: "Record", text: "Intro → shloka → meaning → life application." },
+      { title: "Publish", text: "Public Reel on Instagram with the official tags." },
+      { title: "Submit", text: "Paste the Reel link here." },
     ],
     timeline: [
-      { period: "4 Sep", event: "Janmashtami Grand Launch · Portal opens" },
-      { period: "4 – 22 Sep", event: "Registration, reel creation & Instagram publishing" },
-      { period: "29 Sep 11:59 PM IST", event: "Reach / public-response cut-off" },
-      { period: "30 Sep – 4 Oct", event: "Eligibility, pronunciation & jury evaluation" },
-      { period: "6 – 15 Oct", event: "Top entries & winners showcase" },
-      { period: "16 Oct", event: "Golden Batch Opening · Geeta Swar highlights" },
+      { period: "4 Sep", event: "Janmashtami launch · portal opens" },
+      { period: "4 – 22 Sep", event: "Record and publish your reel" },
+      { period: "29 Sep", event: "Public-response cut-off, 11:59 PM IST" },
+      { period: "30 Sep – 4 Oct", event: "Eligibility and evaluation" },
+      { period: "6 – 15 Oct", event: "Top entries showcase" },
+      { period: "16 Oct", event: "Golden Batch opening · Geeta Swar highlights" },
     ],
-    evaluation: [
-      { label: "Jury", value: "65%" },
-      { label: "Reach", value: "35% (views & engagement)" },
-      { label: "Recognition", value: "Top 3 per age group · Top 10 merit" },
+    recognition: [
+      "Certificate for every valid entry",
+      "Top reels featured across the Golden Batch channels",
+      "Winners honoured at the Golden Batch opening",
     ],
     dos: [
       "Shloka in Sanskrit — one continuous take preferred",
       "Meaning and life application in any language you like",
-      "Ideal duration 90–150 sec (60 min – 180 max)",
+      "Ideal length 90–150 sec",
       "Gita Press, Gorakhpur edition is the preferred reference",
       "Close with your own Golden Batch invitation",
     ],
     donts: [
       "Reading the translation off a book or screen",
       "Reels under 60 sec or over 180 sec — they become ineligible",
-      "Expecting extra marks for a difficult shloka — purity and clarity matter more",
+      "Picking a hard shloka for extra marks — clarity matters more",
     ],
   },
 
   gyan: {
     id: "gyan",
     name: "Geeta Gyan Challenge",
-    subtitle: "50 Questions · 18 Chapters · One Golden Challenge",
-    tagline: "One scored attempt. All eighteen chapters. Your Geeta gyan on the global stage.",
+    subtitle: "The 18-Chapter Quiz",
+    tagline: "One attempt. All eighteen chapters. Your Geeta gyan on the global stage.",
     accent: "#d6a02f",
-    chips: ["Worldwide · 5 age groups", "Practice 4 – 11 Sep", "Official 12 – 20 Sep", "No entry fee"],
+    hook: "50 questions. 35 minutes. One scored attempt.",
+    chips: ["Worldwide", "12 – 20 Sep", "Your language"],
+    facts: [
+      { label: "Format", value: "50 MCQs across all 18 chapters" },
+      { label: "Time", value: "About 35 minutes, one attempt" },
+      { label: "Window", value: "12 – 20 September" },
+    ],
     about: [
-      "A global online challenge testing knowledge, episodes, shloka meanings and life-view of the Bhagavad Geeta — 50 single-answer MCQs across all 18 chapters, in your preferred language.",
-      "Warm up in the Practice Zone with unlimited attempts, then take one scored attempt in the Official Window. Question order and options are randomised per participant, with age-appropriate difficulty for each varg.",
+      "A global online challenge on the knowledge, episodes, shloka meanings and life-view of the Bhagavad Geeta — 50 single-answer questions, in the language you prefer.",
+      "You get one scored attempt inside the official window. Questions and options are randomised for every participant, with difficulty tuned to your age category.",
     ],
     steps: [
-      "Register on the portal — your age category is assigned automatically from your date of birth.",
-      "Choose your preferred quiz language.",
-      "Practice Zone (4–11 Sep): attempt sample quizzes as many times as you like — practice scores don't count.",
-      "Official Round (12–20 Sep): one scored attempt of 50 MCQs in about 35 minutes.",
-      "Receive your provisional score card; share your Golden Batch score card after the window closes.",
+      { title: "Register", text: "Your category is set from your date of birth." },
+      { title: "Pick a language", text: "Take the quiz in the one you think in." },
+      { title: "Attempt", text: "12–20 Sep · 50 questions in about 35 minutes." },
+      { title: "Score card", text: "Share it once the window closes." },
     ],
     timeline: [
-      { period: "4 Sep", event: "Janmashtami Launch · Registration · Practice Zone opens" },
-      { period: "4 – 11 Sep", event: "Registration + practice quiz + awareness campaign" },
-      { period: "12 – 20 Sep", event: "Official Round — one scored attempt" },
-      { period: "21 – 27 Sep", event: "Data review · verification round if required" },
-      { period: "6 – 15 Oct", event: "Winners, leaderboards & showcase" },
-      { period: "16 Oct", event: "Golden Opening · recognition showcase" },
+      { period: "4 Sep", event: "Janmashtami launch · registration opens" },
+      { period: "4 – 11 Sep", event: "Registration and awareness campaign" },
+      { period: "12 – 20 Sep", event: "Official round — one scored attempt" },
+      { period: "21 – 27 Sep", event: "Data review and verification" },
+      { period: "6 – 15 Oct", event: "Leaderboards and showcase" },
+      { period: "16 Oct", event: "Golden Batch opening · recognition" },
     ],
-    evaluation: [
-      { label: "Ranking", value: "Score · difficulty tie-breaks · time as final tie-break" },
-      { label: "Recognition", value: "Top 3 excellence · Top 10 merit" },
-      { label: "Certificate", value: "Participation certificate at 50%+ score" },
+    recognition: [
+      "Participation certificate at 50% or above",
+      "Global and age-wise leaderboards",
+      "Top scorers honoured at the Golden Batch opening",
     ],
     dos: [
-      "The 18 adhyayas — names, order, broad themes and episodes",
-      "Well-known shlokas — identification, speaker, context, key teaching",
-      "Krishna–Arjuna samvad and the Kurukshetra context",
-      "Karma yoga, bhakti, gyan, samatva, shraddha, kartavya and core values",
-      "Practical application of Geeta principles in life situations",
+      "The 18 adhyayas — names, order, themes and episodes",
+      "Well-known shlokas — speaker, context and key teaching",
+      "The Krishna–Arjuna samvad and the Kurukshetra context",
+      "Karma yoga, bhakti, gyan, samatva, shraddha and core values",
+      "Applying Geeta principles to real life situations",
     ],
     donts: [
       "No sectarian controversies or obscure textual disputes",
       "No opinion-based interpretation questions",
-      "No reference material during the official attempt",
+      "No reference material during the attempt",
     ],
   },
 
   expression: {
     id: "expression",
     name: "Geeta Expression",
-    subtitle: "60-sec Personal Reflection Challenge",
+    subtitle: "60-second Reflection Reel",
     tagline: "एक Geeta विचार • एक सच्चा अनुभव • एक प्रभावी अभिव्यक्ति",
     accent: "#1f9e52",
-    chips: ["Worldwide · 5 age groups", "4 – 23 Sep · cut-off 30 Sep", "65% Jury + 35% Reach", "No entry fee"],
+    hook: "One Geeta thought that actually changed something in you.",
+    chips: ["Worldwide", "4 – 23 Sep", "60–90 sec"],
+    facts: [
+      { label: "You submit", value: "A public Instagram Reel, ideally 60 sec" },
+      { label: "Closes", value: "23 September · reach counted to 30 Sep" },
+      { label: "Multiple entries", value: "Yes — your best reel is taken" },
+    ],
     about: [
-      "Not a speech competition. Share what one Geeta thought taught you, changed in you, or the direction it gave you — in your own voice, from your own life.",
-      "One Reel = One Geeta Thought + One Real Reflection + One Golden Batch Invitation. Ideal 60 seconds, maximum 90. Your highest-reach eligible reel at cut-off becomes your entry.",
+      "Not a speech competition. Say what one Geeta thought taught you, changed in you, or the direction it gave you — in your own voice, from your own life.",
+      "One reel = one Geeta thought + one real reflection + one Golden Batch invitation.",
     ],
     steps: [
-      "Register once on the portal and receive your Participant ID.",
-      "Pick one shloka, value, teaching or life-situation from the Geeta.",
-      "Record a vertical Reel (ideal 60 sec, max 90) telling what that thought did for you — a personal story or specific example is strongly preferred.",
-      "Post it public on Instagram with the official tags, hashtags and joingeeta.com in the caption.",
-      "Add the Reel URL on the portal — submit as many reels on different thoughts as you like.",
+      { title: "Register", text: "One account, one Participant ID." },
+      { title: "Pick one thought", text: "A shloka, value or teaching that moved you." },
+      { title: "Record", text: "60 sec (max 90) — a real story beats a speech." },
+      { title: "Publish", text: "Public Reel on Instagram with the official tags." },
+      { title: "Submit", text: "Paste the Reel link here." },
     ],
     timeline: [
-      { period: "4 Sep", event: "Janmashtami Grand Launch · Portal opens" },
-      { period: "4 – 23 Sep", event: "Registration, reel creation & Instagram publishing" },
-      { period: "30 Sep 11:59 PM IST", event: "Reach / public-response cut-off" },
-      { period: "1 – 5 Oct", event: "Eligibility, content jury & reach verification" },
-      { period: "6 – 15 Oct", event: "Top expressions & winners showcase" },
-      { period: "16 Oct", event: "Golden Batch Opening · Expression highlights" },
+      { period: "4 Sep", event: "Janmashtami launch · portal opens" },
+      { period: "4 – 23 Sep", event: "Record and publish your reel" },
+      { period: "30 Sep", event: "Public-response cut-off, 11:59 PM IST" },
+      { period: "1 – 5 Oct", event: "Eligibility and evaluation" },
+      { period: "6 – 15 Oct", event: "Top expressions showcase" },
+      { period: "16 Oct", event: "Golden Batch opening · Expression highlights" },
     ],
-    evaluation: [
-      { label: "Jury", value: "65%" },
-      { label: "Reach", value: "35% (views & engagement)" },
-      { label: "Recognition", value: "Top 3 per age group · Top 10 merit" },
+    recognition: [
+      "Certificate for every valid participant",
+      "Top reflections featured across the Golden Batch channels",
+      "Winners honoured at the Golden Batch opening",
     ],
     dos: [
       "“One shloka that changed my thinking”",
-      "Direction the Geeta gave you in a difficult decision",
-      "Your own “Kurukshetra” — the journey from confusion to clarity",
-      "Geeta in student life, family, profession, leadership or seva",
-      "Dealing with fear, failure, anger, attachment or stress through one Geeta idea",
+      "The direction the Geeta gave you in a hard decision",
+      "Your own “Kurukshetra” — confusion to clarity",
+      "Geeta in student life, family, work, leadership or seva",
+      "Facing fear, failure, anger or stress through one Geeta idea",
     ],
     donts: [
-      "Cramming five shlokas and ten teachings into one reel — keep one central thought",
+      "Five shlokas and ten teachings in one reel — keep one thought",
       "Generic “Geeta is great” speeches — they score low",
       "Presenting someone else's story as your own",
       "Political content, attacks on any community, or miracle-cure claims",
@@ -227,42 +287,48 @@ export const ACTIVITIES: Record<Activity["id"], Activity> = {
     subtitle: "Creative Edit Challenge",
     tagline: "Meaning वही रहे • Presentation नया हो • Reach अधिक हो",
     accent: "#2e6ad6",
-    chips: ["Open to all · no age categories", "Create 4 – 16 Sep", "Publish 17 – 18 Sep", "65% Jury + 35% Reach"],
+    hook: "Re-cut an approved Vivechan into 30–60 seconds that travel.",
+    chips: ["Open to all", "Publish 17–18 Sep", "30–60 sec"],
+    facts: [
+      { label: "You submit", value: "A published Reel + your master MP4" },
+      { label: "Publishing window", value: "17 – 18 September only" },
+      { label: "Source", value: "Official Vivechan Timestamp Bank" },
+    ],
     about: [
-      "Present the most powerful moments of LearnGeeta's approved Vivechan in a fresh, creative digital language — storytelling, subtitles, typography, visual rhythm and editing craft.",
-      "This is not clip-cutting. Choose an approved source from the Official Vivechan Timestamp Bank and craft a 30–60 second vertical Reel that keeps the speaker's meaning perfectly intact.",
+      "Take the strongest moments of LearnGeeta's approved Vivechan and present them in a fresh digital language — storytelling, subtitles, typography, rhythm and editing craft.",
+      "This is not clip-cutting. Pick an approved source from the Timestamp Bank and keep the speaker's meaning perfectly intact.",
     ],
     steps: [
-      "Register once on the portal and receive your Participant ID.",
-      "Choose an approved source from the Official Vivechan Timestamp Bank.",
-      "Creatively edit a 30–60 sec vertical Reel with the official Golden Batch opening/closing pack, clear subtitles and CTA.",
-      "Post it public on Instagram during the Official Publishing Window (17–18 Sep); tag the official account and send a Collab Request.",
-      "Submit the Source ID, Reel URL and your final master MP4 on the portal.",
+      { title: "Register", text: "One account, one Participant ID." },
+      { title: "Pick a source", text: "From the Official Timestamp Bank." },
+      { title: "Edit", text: "30–60 sec vertical, official opening and CTA." },
+      { title: "Publish", text: "17–18 Sep window, tag and send a Collab request." },
+      { title: "Submit", text: "Source ID, Reel link and master MP4." },
     ],
     timeline: [
-      { period: "4 Sep", event: "Grand Launch · Timestamp Bank released" },
-      { period: "4 – 16 Sep", event: "Registration · source selection · reel creation" },
-      { period: "17 – 18 Sep", event: "Official Instagram Publishing Window" },
-      { period: "25 Sep 11:59 PM IST", event: "Reach / public-response cut-off" },
-      { period: "26 Sep – 5 Oct", event: "Screening, jury + reach verification" },
-      { period: "16 Oct", event: "Golden Batch Opening · selected reel montage" },
+      { period: "4 Sep", event: "Grand launch · Timestamp Bank released" },
+      { period: "4 – 16 Sep", event: "Source selection and reel creation" },
+      { period: "17 – 18 Sep", event: "Official Instagram publishing window" },
+      { period: "25 Sep", event: "Public-response cut-off, 11:59 PM IST" },
+      { period: "26 Sep – 5 Oct", event: "Screening and evaluation" },
+      { period: "16 Oct", event: "Golden Batch opening · selected reel montage" },
     ],
-    evaluation: [
-      { label: "Jury", value: "65% content & craft" },
-      { label: "Reach", value: "35% (verified views & engagement)" },
-      { label: "Recognition", value: "Overall Top 3 · up to Top 50 merit" },
+    recognition: [
+      "Certificate for every valid entry",
+      "Selected reels play in the Golden Batch opening montage",
+      "Merit recognition for a wide list of entries",
     ],
     dos: [
-      "Trim the approved segment — keep the speaker's meaning and context whole",
-      "Reel structure: 0–4s identity + opening · 4–48s edited Vivechan · last 8–12s Golden Batch CTA",
+      "Trim the approved segment — keep meaning and context whole",
+      "Structure: 0–4s identity · 4–48s Vivechan · last 8–12s Golden Batch CTA",
       "Clear subtitles, typography and supporting visuals",
-      "Professional editors, students and first-time editors all welcome",
+      "Professional editors, students and first-timers all welcome",
     ],
     donts: [
       "Random Vivechan clips, YouTube shorts or third-party edits as source",
-      "Cuts that change the speaker's meaning, qualification or conclusion — grounds for disqualification",
+      "Cuts that change the speaker's meaning or conclusion — disqualification",
       "Reels under 30 sec or over 60 sec",
-      "Opening/closing so long that the Vivechan becomes secondary",
+      "An opening so long that the Vivechan becomes secondary",
     ],
     openToAll: true,
   },

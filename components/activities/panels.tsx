@@ -2,22 +2,59 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { AGE_GROUPS, LANGUAGES, TIMESTAMP_BANK } from "@/lib/activities";
+import { LANGUAGES, TIMESTAMP_BANK, ageFromDob, vargForDob } from "@/lib/activities";
 import {
-  Chip, type Detail, GoldButton, inputCls, Label, RulesGateHint, SubmittedCard,
+  type Detail, GhostButton, GoldButton, inputCls, Label, SubmittedCard,
 } from "@/components/activities/ui";
 
 const mockId = () => `SV50-${Math.floor(100000 + Math.random() * 900000)}`;
 
-export type PanelProps = { rulesAccepted: boolean };
+/* ————— date of birth —————
+ * The age category is never shown as a list to choose from; participants
+ * give their date of birth and the varg is derived from it silently.
+ */
+
+function DobField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const age = ageFromDob(value);
+  const varg = vargForDob(value);
+  return (
+    <div>
+      <Label htmlFor="dob">Date of birth</Label>
+      <input
+        id="dob"
+        type="date"
+        required
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        max={new Date().toISOString().slice(0, 10)}
+        className={inputCls}
+      />
+      <p className="mt-1.5 text-xs text-navy-900/55">
+        {varg
+          ? `You are ${age} — we will place you in the right category automatically.`
+          : "Used only to place you in the right category."}
+      </p>
+    </div>
+  );
+}
+
+/** Consent line — shown to everyone, worded for the under-18 case. */
+function ConsentBox({ children }: { children: React.ReactNode }) {
+  return (
+    <label className="flex cursor-pointer items-start gap-3 rounded-2xl bg-cream-100 px-4 py-3.5 text-[13px] leading-relaxed text-navy-900/75">
+      <input type="checkbox" required className="mt-0.5 h-5 w-5 shrink-0 accent-gold-600" />
+      {children}
+    </label>
+  );
+}
 
 /* ————— Geeta Chitrakala: artwork upload ————— */
 
-export function ChitrakalaPanel({ rulesAccepted }: PanelProps) {
+export function ChitrakalaPanel() {
   const [preview, setPreview] = useState<string | null>(null);
   const [fileName, setFileName] = useState("");
   const [statement, setStatement] = useState("");
-  const [ageGroup, setAgeGroup] = useState("");
+  const [dob, setDob] = useState("");
   const [entry, setEntry] = useState<{ id: string; details: Detail[] } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -25,10 +62,10 @@ export function ChitrakalaPanel({ rulesAccepted }: PanelProps) {
     return (
       <SubmittedCard
         entryId={entry.id}
-        note="Your artwork and statement have been recorded for age-wise jury evaluation."
+        note="Your artwork and statement have been recorded for evaluation."
         details={entry.details}
         onReset={() => {
-          setEntry(null); setPreview(null); setFileName(""); setStatement(""); setAgeGroup("");
+          setEntry(null); setPreview(null); setFileName(""); setStatement(""); setDob("");
         }}
       />
     );
@@ -49,7 +86,7 @@ export function ChitrakalaPanel({ rulesAccepted }: PanelProps) {
           id: mockId(),
           details: [
             { label: "Competition", value: "Geeta Chitrakala" },
-            { label: "Age group", value: ageGroup },
+            { label: "Category", value: vargForDob(dob)?.varg ?? "—" },
             { label: "Artwork file", value: fileName },
             { label: "मेरे चित्र का भाव", value: statement },
             { label: "Submitted on", value: new Date().toLocaleString() },
@@ -57,26 +94,29 @@ export function ChitrakalaPanel({ rulesAccepted }: PanelProps) {
         });
       }}
     >
+      {/* the upload is the point of this screen, so it leads */}
       <div>
-        <Label>Artwork photo / scan</Label>
+        <Label>Your artwork</Label>
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="flex min-h-64 w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-gold-500/40 bg-cream-50 p-6 transition-colors hover:border-gold-500 hover:bg-cream-100"
+          className="flex min-h-56 w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-gold-500/40 bg-cream-50 p-6 transition-colors hover:border-gold-500 hover:bg-cream-100 sm:min-h-64"
         >
           {preview ? (
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={preview} alt="Artwork preview" className="max-h-56 rounded-xl object-contain" />
-              <span className="text-xs text-navy-900/60">{fileName} — click to replace</span>
+              <span className="text-xs text-navy-900/60">{fileName} — tap to replace</span>
             </>
           ) : (
             <>
-              <svg viewBox="0 0 24 24" className="h-10 w-10 fill-gold-500" aria-hidden="true">
-                <path d="M19 13v6H5v-6H3v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6zM11 6.8 8.4 9.4 7 8l5-5 5 5-1.4 1.4L13 6.8V16h-2z" />
-              </svg>
-              <span className="text-sm font-medium text-navy-800">Click to upload a clear photo of your artwork</span>
-              <span className="text-xs text-navy-900/50">JPG or PNG · handmade physical artwork only</span>
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gold-500/12">
+                <svg viewBox="0 0 24 24" className="h-7 w-7 fill-gold-600" aria-hidden="true">
+                  <path d="M19 13v6H5v-6H3v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6zM11 6.8 8.4 9.4 7 8l5-5 5 5-1.4 1.4L13 6.8V16h-2z" />
+                </svg>
+              </span>
+              <span className="text-base font-bold text-navy-900">Upload a photo of your artwork</span>
+              <span className="text-xs text-navy-900/55">JPG or PNG · handmade artwork only</span>
             </>
           )}
         </button>
@@ -84,33 +124,21 @@ export function ChitrakalaPanel({ rulesAccepted }: PanelProps) {
       </div>
 
       <div className="flex flex-col gap-5">
-        <div>
-          <Label htmlFor="ck-age">Age group (varg)</Label>
-          <select id="ck-age" required value={ageGroup} onChange={(e) => setAgeGroup(e.target.value)} className={inputCls}>
-            <option value="" disabled>Select your varg…</option>
-            {AGE_GROUPS.map((g) => (
-              <option key={g.varg} value={g.varg}>{g.varg} — {g.range}</option>
-            ))}
-          </select>
-        </div>
+        <DobField value={dob} onChange={setDob} />
         <div className="flex-1">
-          <Label htmlFor="ck-statement">मेरे चित्र का भाव — artwork statement</Label>
+          <Label htmlFor="ck-statement">मेरे चित्र का भाव — your statement</Label>
           <textarea
             id="ck-statement" required rows={5} maxLength={500}
             value={statement} onChange={(e) => setStatement(e.target.value)}
-            placeholder="In your own words: which Geeta thought does your artwork express, and how?"
+            placeholder="Which Geeta thought does your artwork express, and how?"
             className={`${inputCls} resize-none`}
           />
           <p className="mt-1 text-right text-[11px] text-navy-900/45">{statement.length}/500</p>
         </div>
-        <label className="flex items-start gap-2.5 text-xs text-navy-900/70">
-          <input type="checkbox" required className="mt-0.5 accent-gold-600" />
-          This artwork is my original creation. For participants under 18, a parent/guardian has consented.
-        </label>
-        <div className="space-y-2.5">
-          <GoldButton type="submit" full disabled={!preview || !rulesAccepted}>Submit Artwork</GoldButton>
-          {!rulesAccepted && <RulesGateHint />}
-        </div>
+        <ConsentBox>
+          This artwork is my own original creation. If I am under 18, a parent or guardian has consented.
+        </ConsentBox>
+        <GoldButton type="submit" full disabled={!preview || !dob}>Submit artwork</GoldButton>
       </div>
     </form>
   );
@@ -120,12 +148,13 @@ export function ChitrakalaPanel({ rulesAccepted }: PanelProps) {
 
 type Reel = { url: string; meta: string };
 
-export function ReelPanel({ kind, rulesAccepted }: PanelProps & { kind: "swar" | "expression" }) {
+export function ReelPanel({ kind }: { kind: "swar" | "expression" }) {
   const [url, setUrl] = useState("");
   const [adhyaya, setAdhyaya] = useState("");
   const [shloka, setShloka] = useState("");
   const [thought, setThought] = useState("");
   const [language, setLanguage] = useState("");
+  const [dob, setDob] = useState("");
   const [reels, setReels] = useState<Reel[]>([]);
   const [entry, setEntry] = useState<{ id: string; details: Detail[] } | null>(null);
   const isSwar = kind === "swar";
@@ -134,9 +163,9 @@ export function ReelPanel({ kind, rulesAccepted }: PanelProps & { kind: "swar" |
     return (
       <SubmittedCard
         entryId={entry.id}
-        note="At cut-off, your highest-reach eligible reel automatically becomes your competition entry."
+        note="Your strongest eligible reel becomes your entry when the window closes."
         details={entry.details}
-        onReset={() => { setEntry(null); setReels([]); }}
+        onReset={() => { setEntry(null); setReels([]); setDob(""); }}
       />
     );
   }
@@ -156,6 +185,7 @@ export function ReelPanel({ kind, rulesAccepted }: PanelProps & { kind: "swar" |
     id: mockId(),
     details: [
       { label: "Competition", value: isSwar ? "Geeta Swar" : "Geeta Expression" },
+      { label: "Category", value: vargForDob(dob)?.varg ?? "—" },
       { label: "Reels submitted", value: String(reels.length) },
       ...reels.map((r, i) => ({ label: `Reel ${i + 1}`, value: `${r.url} — ${r.meta}` })),
       { label: "Submitted on", value: new Date().toLocaleString() },
@@ -164,78 +194,74 @@ export function ReelPanel({ kind, rulesAccepted }: PanelProps & { kind: "swar" |
 
   return (
     <div className="space-y-6 text-left">
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div className="sm:col-span-2">
-          <Label htmlFor="reel-url">Public Instagram Reel URL</Label>
-          <input
-            id="reel-url" type="url" value={url} onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://www.instagram.com/reel/…" className={inputCls}
-          />
-          {url && !valid && <p className="mt-1 text-xs text-red-600">Please paste a public instagram.com/reel/… link</p>}
-        </div>
+      {/* the reel link is the primary action — first field on the screen */}
+      <div className="rounded-2xl border border-gold-500/25 bg-cream-50 p-4 sm:p-5">
+        <Label htmlFor="reel-url">Your published Reel link</Label>
+        <input
+          id="reel-url" type="url" inputMode="url" value={url} onChange={(e) => setUrl(e.target.value)}
+          placeholder="https://www.instagram.com/reel/…" className={inputCls}
+        />
+        {url && !valid && <p className="mt-1.5 text-xs font-medium text-red-600">Paste a public instagram.com/reel/… link</p>}
 
-        {isSwar ? (
-          <>
-            <div>
-              <Label htmlFor="reel-adhyaya">Adhyaya</Label>
-              <select id="reel-adhyaya" value={adhyaya} onChange={(e) => setAdhyaya(e.target.value)} className={inputCls}>
-                <option value="" disabled>Select…</option>
-                {Array.from({ length: 18 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>Adhyaya {i + 1}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <Label htmlFor="reel-shloka">Shloka number</Label>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          {isSwar ? (
+            <>
+              <div>
+                <Label htmlFor="reel-adhyaya">Adhyaya</Label>
+                <select id="reel-adhyaya" value={adhyaya} onChange={(e) => setAdhyaya(e.target.value)} className={inputCls}>
+                  <option value="" disabled>Select…</option>
+                  {Array.from({ length: 18 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>Adhyaya {i + 1}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <Label htmlFor="reel-shloka">Shloka number</Label>
+                <input
+                  id="reel-shloka" type="number" inputMode="numeric" min={1} max={78} value={shloka}
+                  onChange={(e) => setShloka(e.target.value)} placeholder="e.g. 47" className={inputCls}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="sm:col-span-2">
+              <Label htmlFor="reel-thought">Your central Geeta thought</Label>
               <input
-                id="reel-shloka" type="number" min={1} max={78} value={shloka}
-                onChange={(e) => setShloka(e.target.value)} placeholder="e.g. 47" className={inputCls}
+                id="reel-thought" value={thought} onChange={(e) => setThought(e.target.value)}
+                placeholder="e.g. Nishkama Karma in my exams" className={inputCls}
               />
             </div>
-          </>
-        ) : (
-          <div>
-            <Label htmlFor="reel-thought">Your central Geeta thought</Label>
-            <input
-              id="reel-thought" value={thought} onChange={(e) => setThought(e.target.value)}
-              placeholder="e.g. Nishkama Karma in my exams" className={inputCls}
-            />
+          )}
+
+          <div className={isSwar ? "sm:col-span-2" : ""}>
+            <Label htmlFor="reel-lang">{isSwar ? "Explanation language" : "Reel language"}</Label>
+            <select id="reel-lang" value={language} onChange={(e) => setLanguage(e.target.value)} className={inputCls}>
+              <option value="" disabled>Select…</option>
+              {LANGUAGES.map((l) => <option key={l}>{l}</option>)}
+            </select>
           </div>
-        )}
-
-        <div>
-          <Label htmlFor="reel-lang">{isSwar ? "Explanation language" : "Reel language"}</Label>
-          <select id="reel-lang" value={language} onChange={(e) => setLanguage(e.target.value)} className={inputCls}>
-            <option value="" disabled>Select…</option>
-            {LANGUAGES.map((l) => <option key={l}>{l}</option>)}
-          </select>
         </div>
-      </div>
 
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4">
-        <button
-          type="button" onClick={addReel} disabled={!valid || !metaOk}
-          className="w-full rounded-full border-2 border-navy-800/25 px-7 py-3 text-sm font-semibold text-navy-800 transition-colors hover:border-gold-500 hover:text-gold-600 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
-        >
-          + Add this reel
-        </button>
-        <p className="text-center text-xs text-navy-900/55 sm:text-left">
-          You may add multiple reels — the highest-reach eligible one becomes your entry.
-        </p>
+        <div className="mt-4">
+          <GhostButton full onClick={addReel} disabled={!valid || !metaOk}>+ Add this reel</GhostButton>
+          <p className="mt-2 text-center text-xs text-navy-900/55">
+            Add as many reels as you like — your best one is taken.
+          </p>
+        </div>
       </div>
 
       {reels.length > 0 && (
         <ul className="space-y-2.5">
           {reels.map((r, i) => (
-            <li key={i} className="flex items-center justify-between gap-3 rounded-xl border border-gold-500/25 bg-cream-50 px-4 py-3">
+            <li key={i} className="flex items-center justify-between gap-3 rounded-xl border border-gold-500/25 bg-white px-4 py-3">
               <div className="min-w-0">
-                <p className="truncate text-sm font-medium text-navy-800">{r.url}</p>
+                <p className="truncate text-sm font-semibold text-navy-800">{r.url}</p>
                 <p className="text-xs text-navy-900/55">{r.meta}</p>
               </div>
               <button
                 type="button" aria-label="Remove reel"
                 onClick={() => setReels((all) => all.filter((_, j) => j !== i))}
-                className="text-navy-900/40 hover:text-red-600"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-navy-900/40 hover:bg-cream-100 hover:text-red-600"
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6z" /></svg>
               </button>
@@ -244,64 +270,79 @@ export function ReelPanel({ kind, rulesAccepted }: PanelProps & { kind: "swar" |
         </ul>
       )}
 
-      <div className="space-y-2.5">
-        <GoldButton full disabled={reels.length === 0 || !rulesAccepted} onClick={submit}>
-          Submit {reels.length > 0 ? `${reels.length} ` : ""}Reel{reels.length !== 1 ? "s" : ""}
-        </GoldButton>
-        {!rulesAccepted && <RulesGateHint />}
-      </div>
+      <DobField value={dob} onChange={setDob} />
+
+      <ConsentBox>
+        These reels are my own work. If I am under 18, a parent or guardian has consented.
+      </ConsentBox>
+
+      <GoldButton full disabled={reels.length === 0 || !dob} onClick={submit}>
+        Submit {reels.length > 0 ? `${reels.length} ` : ""}reel{reels.length !== 1 ? "s" : ""}
+      </GoldButton>
     </div>
   );
 }
 
-/* ————— Geeta Gyan Challenge: mode launcher ————— */
+/* ————— Geeta Gyan Challenge: single scored attempt ————— */
 
-export function GyanPanel({ rulesAccepted }: PanelProps) {
-  const lockedCls = "pointer-events-none opacity-40";
+export function GyanPanel() {
+  const [dob, setDob] = useState("");
+  const [language, setLanguage] = useState("");
+  const ready = !!dob && !!language;
+
   return (
-    <div className="space-y-4">
-      <div className="grid gap-6 text-left sm:grid-cols-2">
-        <div className="flex flex-col rounded-3xl border border-teal-500/35 bg-teal-500/5 p-8">
-          <Chip accent="#2cbfb4">4 – 11 Sep</Chip>
-          <h3 className="font-display mt-4 text-2xl font-semibold text-navy-900">Practice Zone</h3>
-          <p className="mt-2 flex-1 text-sm leading-relaxed text-navy-900/70">
-            Unlimited attempts with instant feedback after every question. Practice
-            scores never count towards the final result — warm up freely.
-          </p>
-          <Link
-            href="/competitions/gyan/quiz?mode=practice"
-            aria-disabled={!rulesAccepted}
-            tabIndex={rulesAccepted ? undefined : -1}
-            className={`mt-6 w-full rounded-full border-2 border-teal-500/60 px-7 py-3 text-center text-sm font-semibold text-teal-600 transition-colors hover:bg-teal-500/10 sm:w-fit ${rulesAccepted ? "" : lockedCls}`}
-          >
-            Start Practice Quiz
-          </Link>
-        </div>
-        <div className="flex flex-col rounded-3xl border border-gold-500/40 bg-gold-500/5 p-8">
-          <Chip>12 – 20 Sep</Chip>
-          <h3 className="font-display mt-4 text-2xl font-semibold text-navy-900">Official Round</h3>
-          <p className="mt-2 flex-1 text-sm leading-relaxed text-navy-900/70">
-            One scored attempt · 50 MCQs · about 35 minutes. Questions and options
-            are randomised; answers reveal only after the window closes.
-          </p>
-          <Link
-            href="/competitions/gyan/quiz?mode=official"
-            aria-disabled={!rulesAccepted}
-            tabIndex={rulesAccepted ? undefined : -1}
-            className={`bg-goldgrad mt-6 w-full rounded-full px-7 py-3 text-center text-sm font-semibold text-navy-900 shadow-[0_14px_35px_-12px_rgba(185,130,28,0.9)] transition-transform hover:scale-[1.03] sm:w-fit ${rulesAccepted ? "" : lockedCls}`}
-          >
-            Start Official Attempt
-          </Link>
+    <div className="space-y-6 text-left">
+      <div className="rounded-2xl border border-gold-500/30 bg-gold-500/5 p-5 sm:p-6">
+        <p className="text-[11px] font-semibold tracking-[0.2em] text-gold-700 uppercase">12 – 20 September</p>
+        <h3 className="font-display mt-1.5 text-2xl font-bold text-navy-900">One golden attempt</h3>
+        <ul className="mt-3 space-y-1.5 text-sm text-navy-900/75">
+          <li className="flex gap-2.5"><Dot />50 single-answer questions across all 18 chapters</li>
+          <li className="flex gap-2.5"><Dot />About 35 minutes — the attempt auto-submits at 00:00</li>
+          <li className="flex gap-2.5"><Dot />You can revisit and change answers before submitting</li>
+        </ul>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <DobField value={dob} onChange={setDob} />
+        <div>
+          <Label htmlFor="gy-lang">Quiz language</Label>
+          <select id="gy-lang" value={language} onChange={(e) => setLanguage(e.target.value)} className={inputCls}>
+            <option value="" disabled>Select…</option>
+            {LANGUAGES.filter((l) => l !== "Sanskrit").map((l) => <option key={l}>{l}</option>)}
+          </select>
         </div>
       </div>
-      {!rulesAccepted && <RulesGateHint />}
+
+      <ConsentBox>
+        I will attempt this on my own, without reference material. If I am under 18, a parent or guardian has consented.
+      </ConsentBox>
+
+      <Link
+        href="/competitions/gyan/quiz"
+        aria-disabled={!ready}
+        tabIndex={ready ? undefined : -1}
+        className={`bg-goldgrad flex min-h-[52px] w-full items-center justify-center rounded-full px-8 text-[15px] font-bold text-navy-900 shadow-[0_14px_35px_-12px_rgba(185,130,28,0.9)] transition-transform active:scale-[0.98] ${
+          ready ? "" : "pointer-events-none opacity-40"
+        }`}
+      >
+        Begin my attempt →
+      </Link>
+      {!ready && (
+        <p className="text-center text-xs font-medium text-gold-700">
+          Fill in your date of birth and quiz language to begin.
+        </p>
+      )}
     </div>
   );
+}
+
+function Dot() {
+  return <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />;
 }
 
 /* ————— Vivechan Reel: timestamp bank + master file ————— */
 
-export function VivechanPanel({ rulesAccepted }: PanelProps) {
+export function VivechanPanel() {
   const [source, setSource] = useState("");
   const [url, setUrl] = useState("");
   const [fileName, setFileName] = useState("");
@@ -312,7 +353,7 @@ export function VivechanPanel({ rulesAccepted }: PanelProps) {
     return (
       <SubmittedCard
         entryId={entry.id}
-        note="Your reel goes through context & technical screening after the reach cut-off."
+        note="Your reel goes through context and technical screening after the cut-off."
         details={entry.details}
         onReset={() => { setEntry(null); setSource(""); setUrl(""); setFileName(""); }}
       />
@@ -323,99 +364,96 @@ export function VivechanPanel({ rulesAccepted }: PanelProps) {
   const picked = TIMESTAMP_BANK.find((r) => r.sourceId === source);
 
   return (
-    <div className="space-y-8 text-left">
+    <div className="space-y-7 text-left">
+      {/* 1 · source — cards on phones, a table would force sideways scrolling */}
       <div>
-        <Label>1 · Choose your approved source — Official Vivechan Timestamp Bank</Label>
-        <div className="overflow-x-auto rounded-2xl border border-gold-500/25">
-          <table className="w-full min-w-[640px] text-left text-sm">
-            <thead>
-              <tr className="border-b border-gold-500/25 bg-cream-100 text-xs tracking-wider text-navy-800 uppercase">
-                <th className="px-4 py-3 font-semibold">Select</th>
-                <th className="px-4 py-3 font-semibold">Source ID</th>
-                <th className="px-4 py-3 font-semibold">Segment</th>
-                <th className="px-4 py-3 font-semibold">Source</th>
-                <th className="px-4 py-3 font-semibold">Language</th>
-                <th className="px-4 py-3 font-semibold">Permitted range</th>
-              </tr>
-            </thead>
-            <tbody>
-              {TIMESTAMP_BANK.map((row) => (
-                <tr
-                  key={row.sourceId}
+        <Label>1 · Choose your approved source</Label>
+        <ul className="mt-1 grid gap-2.5 sm:grid-cols-2">
+          {TIMESTAMP_BANK.map((row) => {
+            const on = source === row.sourceId;
+            return (
+              <li key={row.sourceId}>
+                <button
+                  type="button"
                   onClick={() => setSource(row.sourceId)}
-                  className={`cursor-pointer border-b border-navy-900/5 transition-colors last:border-0 ${
-                    source === row.sourceId ? "bg-gold-500/10" : "hover:bg-cream-50"
+                  aria-pressed={on}
+                  className={`flex w-full items-start gap-3 rounded-2xl border-2 p-4 text-left transition-colors ${
+                    on ? "border-gold-500 bg-gold-500/10" : "border-navy-900/10 bg-cream-50 hover:border-gold-500/50"
                   }`}
                 >
-                  <td className="px-4 py-3">
-                    <input
-                      type="radio" name="source" checked={source === row.sourceId}
-                      onChange={() => setSource(row.sourceId)} className="accent-gold-600"
-                      aria-label={`Select ${row.sourceId}`}
-                    />
-                  </td>
-                  <td className="px-4 py-3 font-mono text-xs text-navy-800">{row.sourceId}</td>
-                  <td className="px-4 py-3 font-medium text-navy-900">{row.title}</td>
-                  <td className="px-4 py-3 text-navy-900/70">{row.speaker}</td>
-                  <td className="px-4 py-3 text-navy-900/70">{row.language}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-navy-900/70">{row.range}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="grid gap-5 lg:grid-cols-2">
-        <div>
-          <Label htmlFor="vr-url">2 · Public Instagram Reel URL</Label>
-          <input
-            id="vr-url" type="url" value={url} onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://www.instagram.com/reel/…" className={inputCls}
-          />
-          {url && !valid && <p className="mt-1 text-xs text-red-600">Please paste a public instagram.com/reel/… link</p>}
-        </div>
-        <div>
-          <Label>3 · Final master file (MP4)</Label>
-          <button
-            type="button" onClick={() => fileRef.current?.click()}
-            className="flex w-full items-center gap-3 rounded-xl border-2 border-dashed border-gold-500/40 bg-cream-50 px-4 py-3 text-sm text-navy-800 transition-colors hover:border-gold-500"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-gold-500"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11z" /></svg>
-            <span className="truncate">{fileName || "Attach your master MP4…"}</span>
-          </button>
-          <input
-            ref={fileRef} type="file" accept="video/mp4" className="hidden"
-            onChange={(e) => setFileName(e.target.files?.[0]?.name ?? "")}
-          />
-        </div>
-      </div>
-
-      <label className="flex items-start gap-2.5 text-xs text-navy-900/70">
-        <input type="checkbox" required className="mt-0.5 accent-gold-600" id="vr-consent" />
-        My edit keeps the speaker&apos;s meaning, qualification and conclusion fully intact, and uses only the permitted clip range.
-      </label>
-
-      <div className="space-y-2.5">
-        <GoldButton
-          full
-          disabled={!source || !valid || !fileName || !rulesAccepted}
-          onClick={() => setEntry({
-            id: mockId(),
-            details: [
-              { label: "Competition", value: "Vivechan Reel" },
-              { label: "Source ID", value: `${source} — ${picked?.title ?? ""}` },
-              { label: "Permitted range", value: picked?.range ?? "" },
-              { label: "Reel URL", value: url },
-              { label: "Master file", value: fileName },
-              { label: "Submitted on", value: new Date().toLocaleString() },
-            ],
+                  <span
+                    className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
+                      on ? "border-gold-600 bg-gold-600" : "border-navy-900/25"
+                    }`}
+                  >
+                    {on && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-bold text-navy-900">{row.title}</span>
+                    <span className="mt-0.5 block text-xs text-navy-900/60">
+                      {row.speaker} · {row.language}
+                    </span>
+                    <span className="mt-1 block font-mono text-[11px] text-navy-900/55">
+                      {row.sourceId} · {row.range}
+                    </span>
+                  </span>
+                </button>
+              </li>
+            );
           })}
-        >
-          Submit Reel Entry
-        </GoldButton>
-        {!rulesAccepted && <RulesGateHint />}
+        </ul>
       </div>
+
+      {/* 2 · reel link */}
+      <div>
+        <Label htmlFor="vr-url">2 · Your published Reel link</Label>
+        <input
+          id="vr-url" type="url" inputMode="url" value={url} onChange={(e) => setUrl(e.target.value)}
+          placeholder="https://www.instagram.com/reel/…" className={inputCls}
+        />
+        {url && !valid && <p className="mt-1.5 text-xs font-medium text-red-600">Paste a public instagram.com/reel/… link</p>}
+      </div>
+
+      {/* 3 · master file */}
+      <div>
+        <Label>3 · Upload your master file (MP4)</Label>
+        <button
+          type="button" onClick={() => fileRef.current?.click()}
+          className="flex min-h-[64px] w-full items-center gap-3 rounded-2xl border-2 border-dashed border-gold-500/40 bg-cream-50 px-4 py-3.5 text-sm font-semibold text-navy-800 transition-colors hover:border-gold-500"
+        >
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold-500/12">
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-gold-600"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11z" /></svg>
+          </span>
+          <span className="truncate">{fileName || "Attach your master MP4…"}</span>
+        </button>
+        <input
+          ref={fileRef} type="file" accept="video/mp4" className="hidden"
+          onChange={(e) => setFileName(e.target.files?.[0]?.name ?? "")}
+        />
+      </div>
+
+      <ConsentBox>
+        My edit keeps the speaker&apos;s meaning and conclusion fully intact, and uses only the permitted clip range.
+        If I am under 18, a parent or guardian has consented.
+      </ConsentBox>
+
+      <GoldButton
+        full
+        disabled={!source || !valid || !fileName}
+        onClick={() => setEntry({
+          id: mockId(),
+          details: [
+            { label: "Competition", value: "Vivechan Reel" },
+            { label: "Source", value: `${source} — ${picked?.title ?? ""}` },
+            { label: "Permitted range", value: picked?.range ?? "" },
+            { label: "Reel URL", value: url },
+            { label: "Master file", value: fileName },
+            { label: "Submitted on", value: new Date().toLocaleString() },
+          ],
+        })}
+      >
+        Submit my entry
+      </GoldButton>
     </div>
   );
 }

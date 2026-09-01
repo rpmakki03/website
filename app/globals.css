@@ -121,3 +121,32 @@ html:not([lang="en"]) :is(
 ) {
   letter-spacing: 0.04em;
 }
+
+/* ——— bottom-sheet entry (phones) ——— */
+@keyframes sheet-up {
+  from { transform: translateY(12%); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+.animate-sheet-up { animation: sheet-up 220ms cubic-bezier(0.22, 1, 0.36, 1); }
+@media (min-width: 640px) {
+  .animate-sheet-up { animation: none; }
+}
+
+/* ——— <details> accordions ——— */
+/* A summary is focusable; without this the whole row flashes a text caret
+   selection on every tap. */
+details > summary { -webkit-tap-highlight-color: transparent; user-select: none; }
+
+/* ——— touch targets ——— */
+/* Phones get no hover, so :hover styles fire on tap and stick. Interactive
+   surfaces respond to the press instead. */
+@media (hover: none) {
+  a, button, summary { -webkit-tap-highlight-color: rgba(214, 160, 47, 0.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee, .animate-floaty, .animate-floaty-slow, .animate-sheet-up {
+    animation: none;
+  }
+  html { scroll-behavior: auto; }
+}
